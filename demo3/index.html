@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="demo3.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+  <title>Track analyze</title>
+</head>
+
+<body>
+
+  <div>
+    <nav id = "nav1">
+    <ul>
+            <a href="">home</a>
+            <a href="">demo1</a>
+            <a href="">demo2</a>
+        </ul>
+    </nav>
+
+    <div id = "main_box">
+      <svg id = "main_svg">
+        <svg g id ="target_g">
+          <polygon id="target"></polygon>
+         </svg>
+        <svg g id ="cursor_g">
+        <polygon id="cursor"></polygon>
+        </svg>
+     </svg>
+
+      <div id ="paper">
+        <svg id="user_plot" width="600", height = "200"></svg>
+        <svg id="model_plot" width="600", height = "200"></svg>
+      </div>
+
+      <table id = "ranges">
+      <tr>
+        <td>Ko: </td> <td><input type="range" id="slider1"> </td>
+        <td><p id = 'sl1'>0</p></td>
+         </tr>
+      <tr> <td>Delay:</td> <td> <input type="range" id="slider2"></td>
+        <td><p id = 'sl2'>0</p></td>
+        </tr>
+      <tr> <td>Time Const:</td><td> <input type="range" id="slider3"></td>
+      <td><p id = 'sl3'>0</p></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+  </body>
+</html>

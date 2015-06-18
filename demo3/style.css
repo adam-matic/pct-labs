@@ -1,0 +1,49 @@
+
+ul {
+    list-style-type:none;
+    margin: auto; padding: auto;
+  background-color: $color1;
+}
+a { display:block; width:50px; }
+/*{
+#nav1 {
+  position:absolute;
+  top:180px;
+  width:150px;
+  margin-top:100px;
+  float:left;
+}
+}*/
+#main_box {
+    position: relative;
+    height: 600px;
+    width: 800px;
+    /*border: solid 1px;*/
+    font-family:sans-serif;
+    font-size: 13px;
+    margin: auto;
+    padding: auto;
+ }
+
+#main_svg {   position: absolute;
+  height: 100%;   width: 120px; border: solid 1px;
+  cursor: '.';
+}
+
+#user_plot {
+  position:absolute;
+  left: 150px;
+}
+
+
+#model_plot {
+  position: absolute;
+  left: 150px;
+  top: 250px;
+}
+
+#ranges {
+  position:absolute;
+  left: 300px;
+  top: 500px;
+}

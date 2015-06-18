@@ -1,0 +1,38 @@
+#nav {
+  background-color: #222;
+  position:fixed;
+  width:100%;
+  top:0;
+}
+
+#nav-wrapper {
+  margin: 0 auto;
+  text-align: left;
+}
+
+#nav ul {
+  list-style-type: none;
+  padding:0;
+  margin: 0;
+}
+
+#nav ul li{
+  display:inline-block;
+}
+
+#nav ul li:hover{
+  background-color: #333;
+}
+
+#nav ul li a, visited{
+  display:block;
+  padding: 15px;
+  color: #CCC;
+  text-decoration: none;
+}
+
+body {
+  overflow-y: scroll;
+  padding: 0;
+  margin: 80px 0;
+}

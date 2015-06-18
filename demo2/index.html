@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="demo2.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+  <title>Live block</title>
+</head>
+
+<body>
+
+  <div>
+    <nav id = "nav1">
+    <ul>
+            <a href="">home</a>
+            <a href="">demo1</a>
+            <a href="">demo2</a>
+        </ul>
+</nav>
+
+<div id = "main_box">
+    <div id="paper"></div>
+    <div class= "function_box" id = "input_box">Input function</div>
+    <div class= "function_box" id = "output_box">Output function</div>
+    <div class= "function_box" id = "comparator_box">Comparator</div>
+    <div class= "function_box" id = "feedback_box">Feedback function</div>
+    <div class="holder" id = "div-delay">
+        <p><input type="range" id="slider-delay"></p>
+        Input delay (ms):
+    </div>
+    <div class="holder" id = "div-reference">
+        <p><input type="range" id="slider-reference"></p>
+        Reference signal
+    </div>
+
+    <div class="holder" id = "div-in-gain">
+        Input gain:
+        <p><input type="range" id="slider-input-gain"></p>
+
+    </div>
+    <div class="holder" id = "div-out-gain">
+        <p><input type="range" id="slider-output-gain"></p>
+        Output gain:
+    </div>
+    <div class="holder" id = "div-disturbance">
+        Disturbance
+        <p><input type="range" id="slider-disturbance"></p>
+    </div>
+    <div class="holder" id = "div-slowing">
+        Time const (s):
+        <p><input type="range" id="slider-slowing"></p>
+    </div>
+    <div class="holder" id = "div-fgain">
+        Feedback gain:
+        <p><input type="range" id="slider-feedback"></p>
+    </div>
+
+   <div class="signal-wrap indicator" id="ind-p"><div class="signal-size indicator" id="ind-bar-p"></div></div>
+   <div class="signal-wrap indicator" id="ind-r"><div class="signal-size indicator" id="ind-bar-r"></div></div>
+   <div class="signal-wrap indicator" id="ind-e"><div class="signal-size indicator" id="ind-bar-e"></div></div>
+   <div class="signal-wrap indicator" id="ind-f"><div class="signal-size indicator" id="ind-bar-f"></div></div>
+   <div class="signal-wrap indicator" id="ind-d"><div class="signal-size indicator" id="ind-bar-d"></div></div>
+   <div class="signal-wrap indicator" id="ind-qi"><div class="signal-size indicator"id="ind-bar-qi"></div></div>
+   <div class="signal-wrap indicator" id="ind-qo"><div class="signal-size indicator"id="ind-bar-qo"></div></div>
+
+    <p class="signal-name" id = "ps">Perceptual signal</p>
+    <p class="signal-name" id = "es">Error signal</p>
+    <p class="signal-name" id = "qis">Input quantity</p>
+    <p class="signal-name" id = "qos">Output quantity</p>
+    <p class="signal-name" id = "fqs">Feedback quantity</p>
+    <p class ="signal-value" id = "p">0.00</p>
+    <p class ="signal-value" id = "r">0.00</p>
+    <p class ="signal-value" id = "e">0.00</p>
+    <p class ="signal-value" id = "qo">0.00</p>
+    <p class ="signal-value" id = "f">0.00</p>
+    <p class ="signal-value" id = "d">0.00</p>
+    <p class ="signal-value" id = "qi">0.00</p>
+    <p class ="signal-value" id = "Ki">0.00</p>
+    <p class ="signal-value" id = "delay">0.00</p>
+    <p class ="signal-value" id = "Ko">0.00</p>
+    <p class ="signal-value" id = "S">0.00</p>
+    <p class ="signal-value" id = "Kf">0.00</p>
+
+    <p id ="boundary-label-system">System</p>
+    <p id ="boundary-label-environment">Environment</p>
+    <p id ="plus1">+</p>
+    <p id ="plus2">+</p>
+    <p id ="plus3">+</p>
+    <p id ="minus1">-</p>
+
+    <div id="qicircle"></div>
+
+    <div class = "lines" id = "line1"></div>
+    <div class = "lines" id = "line2"></div>
+    <div class = "lines" id = "line3"></div>
+    <div class = "lines" id = "line4"></div>
+    <div class = "lines" id = "line5"></div>
+    <div class = "lines" id = "line6"></div>
+    <div class = "lines" id = "line7"></div>
+    <div class = "lines" id = "line8"></div>
+    <div class = "lines" id = "line9"></div>
+    <div class = "lines" id = "line10"></div>
+    <div class = "lines" id = "line11"></div>
+
+    <div class="arrow-down" id="arrow-down1"></div>
+    <div class="arrow-down" id="arrow-down2"></div>
+    <div class="arrow-left" id="arrow-left1"></div>
+    <div class="arrow-left" id="arrow-left2"></div>
+    <div class="arrow-right" id="arrow-right1"></div>
+    <div class="arrow-up" id="arrow-up1"></div>
+    <div class="arrow-up" id="arrow-up2"></div>
+
+    <form id = "dist-choice">Disturbance type:<br><br>
+      <input type="radio" name = "auto-disturbance" id = "manual" checked>Manual
+      <br>
+      <input type="radio" name = "auto-disturbance" id = "auto">Auto
+  </form>
+    <form id = "live-choice">Simulation type: <br>
+      <br>
+      <input type="radio" name = "live-or-minute-run" id = "live" checked>Live<br>
+    <input type="radio" name = "live-or-minute-run" id = "minute-run">Time domain
+    </form>
+
+  <div id ="canvas-div">
+    <canvas id='c1'></canvas>
+  </div>
+
+<div id ="paper">
+  <svg id="papersvg" width="600", height = "300">
+    <polyline id="gp" style="fill:none; stroke-width:2"> a </polyline>
+    <polyline id="ge" style="fill:none; stroke-width:2">  </polyline>
+    <polyline id="gd" style="fill:none; stroke-width:2">  </polyline>
+    <polyline id="gr" style="fill:none; stroke-width:2">  </polyline>
+    <polyline id="gqo" style="fill:none; stroke-width:2">  </polyline>
+    <polyline id="gqi" style="fill:none; stroke-width:2">  </polyline>
+    <polyline id="gf" style="fill:none; stroke-width:2">  </polyline>
+
+  </svg>
+  </div>
+</div>
+</body>
+</html>
