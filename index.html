@@ -1,31 +1,33 @@
 <html>
 <head>
   <title>PCT Labs</title>
-  <!--link href="style.css" type="text/css" rel="stylesheet"/-->
-   </head>
+  <link href="/common/style.css" type="text/css" rel="stylesheet">
+</head>
 
-<body style="top: 60px; width:600px; margin:auto;">
+<body>
   <div id = "menulink"></div>
-  <div>
-
-    This website is in construction. <br> <br>
+  <center><h1><font face = "Helvetica">PCT Labs</font></h1></center>
+  <div id = "main_frame">This website is in construction. <br> <br>
     It will contain simulations of control systems and animations of important concepts from perceptual control theory (PCT). PCT suggests a unique and interesting way of applying classical control theory to experimental psychology, as well as constructing artificial control systems. It was developed by the late <a href ="https://en.wikipedia.org/wiki/William_T._Powers">William T. Powers.</a> <br>
     <br>
-    My first project is making JavaScript versions of simulations written in Delphi by Powers and Abbott, and published with the book <a href="http://www.amazon.com/Living-Control-Systems-III-Fact/dp/0964712180">Living Control Systems III</a>. Delphi source code with compiled programs is available at: <a href="http://www.billpct.org">www.billpct.org</a>
+    My first project is making JavaScript versions of simulations written in Delphi by Powers and Abbott, and published with the book <a href="http://www.amazon.com/Living-Control-Systems-III-Fact/dp/0964712180">Living Control Systems III</a>. Delphi source code with compiled programs is available at: <a href="http://www.billpct.org">www.billpct.org</a>.
 
     <br>
+    <p>
+    JavaScript source code si available at <a href = "https://github.com/adam-matic/pct-labs">github</a>.
+    </p>
+
     <p style="text-align: right;">
       <i>Adam</i>
       <br>Contact:<br> <span style="font-family: monospace; text-align: right;">adam<i>.</i>matic<i>@</i>gmail.com</span>
 
     </p>
-
   </div>
   </body>
 
   <script>
     var xhr= new XMLHttpRequest();
-    xhr.open('GET', '/menu.html', true);
+    xhr.open('GET', '/common/menu.html', true);
     xhr.onreadystatechange= function() {
       if (this.readyState!==4) return;
       if (this.status!==200) return;

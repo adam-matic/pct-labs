@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="/lib/lib.js"></script>
+  <script src="intro.js"></script>
+  <link rel="stylesheet" type="text/css" href="/common/style.css">
+
+  <title>The Phenomenon of Control</title>
+</head>
+
+<body>
+
+  <div id="menulink"></div>
+  <center>
+    <h1><font face = "Helvetica">The Phenomenon of Control</font></h1>
+  </center>
+
+  <div id="main_frame">
+    <p>There are many different meanings to the term <i>control</i>, so I'll start with a general definition and continue with several examples.</p>
+    <p>Control is the process of attaining and maintaining the level of some variable at a desired value despite opposing influences. </p>
+    <p>Here is a red ball. Using the slider, maintain its position at the center of the box. </p>
+
+    <div id="red_ball_div">
+    </div>
+    <br>
+    <p> You can now see the basic elements of the control process. You are sensing the position of the ball in relation to the edges of the box, and that is the sensed or perceived or controlled variable. You know where you want to keep the ball, that is the reference value or the setpoint. Then there are disturbances acting on the ball, moving it away from the desired position. As you try to maintain the ball in the center, you act opposite to disturbances. If the position is disturbed to the right, you move the slider to the left. After a bit of practice, you can make the position stay very close to the center. The position plot will be flat. At the same time, the slider position plot will be opposite to the disturbance plot.</p>
+    <br>
+    <p>Here is another example of control. Keep the tone equal to the reference tone. First try it without visual aid, then with it. Notice how control is different if you have a visual aid.</p>
+
+    <div id="tone_div"> Testing </div>
+    <br>
+    <p>
+      We do these sorts of things all day long in all sensory modalities. Fries are not as salty as we like them. Add a bit of salt, taste it, add a bit more, and now they are great. If the room is too cold, you can close the door, turn up the heater or put on a sweater. If it is too hot, you can take off the sweater, open the window, go outside. Notice that in the case of temperature, we can use very different behaviors, it is still control of the same variable, the perception of temperature. Also, we don’t even need to know what is causing the drop or rise in temperature, we just act to oppose the effect of whatever is changing the temperature by whatever means we want. If we know the causes, that can be helpful in removing the causes, but it is not necessary.
+    </p>
+    <br>
+    <p>Here is an artificial control system that maintains the position of the ball in the center of the box. By moving the slider, you act as a disturbance to its controlled variable, and you can see that it will struggle to keep the position where it wants it. It is about as fast and sensitive as an average human. </p>
+    <br>
+    <div id="artificial_div"></div>
+    <br>
+    <p>
+      It also does not have any knowledge of the causes of the disturbances, it does not try to predict what will happen, and it is really very simple. Here is the important part of the code that is controlling the size of the shape. Variable p is the sensed position, r is the reference position, d is the disturbance from the slider, and Kp is gain value that determines the sensitivity of the control system.</p>
+    <div id="code" style="left:40px">
+      <p> p = o + d</p>
+      <p>e = r - p</p>
+      <p>o = Kp * e</p>
+    </div>
+    You can see the rest of the code for this demo <a href="/intro/intro.js">here</a>, or on <a href="https://github.com/adam-matic/pct-labs">github</a>.
+    </p>
+
+
+
+
+
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES * * */
+      var disqus_shortname = 'pct-labs';
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+    </noscript>
+  </div>
+
+</body>
+
+<script>
+  // load common menu
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/common/menu.html', true);
+  xhr.onreadystatechange = function () {
+    if (this.readyState !== 4) return;
+    if (this.status !== 200) return;
+    document.getElementById('menulink').innerHTML = this.responseText;
+  };
+  xhr.send();
+
+  // google analytics
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', 'UA-64080149-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</html>

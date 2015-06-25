@@ -1,0 +1,12 @@
+#main_frame {
+  width:680px;
+  margin:auto;
+  text-align: justify;
+  top: 60px;
+  line-height: 150%;
+}
+
+#code {
+  font-family: monospace;
+  line-height:100%;
+}
