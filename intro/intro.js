@@ -53,7 +53,7 @@ function make_red_ball(gradient) {
   return ball;
 }
 
-var ball, frame;
+var ball, frame, ball2, frame2;
 window.onload = function () {
 
   var g = function (x) {
@@ -73,7 +73,7 @@ window.onload = function () {
   svg_frame = lib.make_svg('svg');
   svg_frame.style.border = 'solid 1px';
   svg_frame.style.width = '100%';
-  svg_frame.style.height = '70';
+  svg_frame.style.height = '70px';
 
   var defs = lib.make_svg('defs');
   svg_frame.appendChild(defs);
@@ -86,6 +86,29 @@ window.onload = function () {
 
   animate_red_ball();
 
+
+
+  ball2 = make_red_ball(gradient);
+  frame2 = g("artificial_div");
+  frame2.style.width = '600px';
+  frame2.style.height = '200px';
+  frame2.style.margin = 'auto';
+
+  var svg_frame2 = lib.make_svg('svg');
+  svg_frame2.style.border = 'solid 1px';
+  svg_frame2.style.width = '100%';
+  svg_frame2.style.height = '70px';
+
+  var defs2 = lib.make_svg('defs');
+  svg_frame2.appendChild(defs2);
+
+  defs2.appendChild(gradient);
+
+
+  svg_frame2.appendChild(ball2);
+  frame2.appendChild(svg_frame2);
+
+  animate_red_ball2();
 }
 
 function animate_red_ball() {
@@ -140,13 +163,13 @@ function animate_red_ball() {
       streams.output.data.push(signals.o * 2);
       streams.position.data.push(signals.x);
 
-      if (streams.disturbance.data.length > 600) {
+      if (streams.disturbance.data.length > (600 / 0.3)) {
         for (k in streams)
           streams[k].data.shift();
       }
 
       plot.update(streams);
-      counter = 0;
+      counter = 3;
     }
     requestAnimFrame(animate);
   }
@@ -154,117 +177,94 @@ function animate_red_ball() {
   requestAnimFrame(animate);
 }
 
-/*
-slider1 = document.getElementById('slider1');
-slider1.setAttribute('min', '-1000');
-slider1.setAttribute('max', '1000');
-slider1.setAttribute('value', '0');
-slider1.setAttribute('step', '.5');
-});
 
 
-mode = 'animate';
+function animate_red_ball2() {
+  var requestAnimFrame = lib.requestAnimFrame();
 
-disturbance_position = dist_maker(0.02, 350);
-disturbance_size = dist_maker(0.03, 50);
-disturbance_angle = dist_maker(0.02, 6.0);
-sliderValue = 0;
+  var signals = {
+    d: 0,
+    o: 0,
+    x: 0
+  };
 
-triangle = document.getElementById("triangle");
+  var slider1 = lib.make_big_slider(signals, 'o', {
+    min: -10,
+    max: 10,
+    step: 1,
+    width: 600,
+    x: 0,
+    y: 80
+  });
+  frame2.appendChild(slider1);
+
+  var streams = {
+    disturbance: {
+      data: [],
+      color: 'green'
+    },
+    output: {
+      data: [],
+      color: 'gray'
+    },
+    position: {
+      data: [],
+      color: 'red'
+    }
+
+  };
+  var plot = lib.make_svg_plot(streams);
+  frame2.appendChild(plot.frame);
+
+  var counter = 0;
+  var reference = 0;
+  var err = 0,
+    f = 0;
+
+  var M = 0.01,
+    A = 0,
+    V = 0,
+    dt = 1 / 60,
+    F = 0,
+    S = 0;
+
+  function animate() {
 
 
-var dp, ds, da;
+    signals.d = +slider1.value;
 
-function animate() {
-  dp = disturbance_position.next();
-  ds = disturbance_size.next();
-  da = disturbance_angle.next();
+    F = signals.o + signals.d;
 
-  sliderValue = parseInt(slider1.value);
+    A = F / M;
+    V = V + A * dt;
+    S = S + 0.5 * V * dt;
+    signals.x = S;
 
-  cx = 300 + dp + 0.2 * sliderValue;
-  csz = 80 + ds + 0.07 * sliderValue;
-  angle =  0 + da + 0.002 * sliderValue;
 
-  cx = constrain(cx, 60, 540);
-  csz = constrain(csz, 30, 150);
-  angle = constrain(angle, -3,3);
-  triangle.setAttribute('points', shape_tri(cx,150,  csz, angle));
-}
+    err = reference - signals.x;
 
-function record() {
-  animate();
-  dist_p.push(dp);
-  dist_s.push(ds);
-  dist_a.push(da);
+    signals.o += (err * 10 - signals.o - V * 150) * (0.016 / 30);
 
-  pos_rec.push(-300 + cx);
-  size_rec.push(-80 + csz);
-  angle_rec.push(angle);
+    //console.log(signals.x, signals.d, signals.o);
 
-  slider_pos.push(0.2*sliderValue);
-  slider_size.push(0.07*sliderValue);
-  slider_angle.push(0.002*sliderValue);
+    ball2.setAttribute('cx', 300 + signals.x);
 
-  if (pos_rec.length >= 1000) {
-    mode = 'analyze';
+    if (counter++ > 2) {
+      streams.disturbance.data.push(-signals.d * 0.2);
+      streams.output.data.push(signals.o * 0.2);
+      streams.position.data.push(signals.x * 0.2);
+
+      if (streams.disturbance.data.length > (600 / 0.3)) {
+        for (k in streams)
+          streams[k].data.shift();
+      }
+
+      plot.update(streams);
+      counter = 3;
+    }
+    //if (signals.x < 200)
+    requestAnimFrame(animate);
   }
-  */
-/*
 
-function analyze() {
-  var m = stat.pearson(dist_p, slider_pos);
-  var n = stat.pearson(dist_s, slider_size);
-  var k = stat.pearson(dist_a, slider_angle);
-
-  var sol = (m < n) && (m < k) && (m < -0.5) ? "position" : ((n < m) && (n < k) && (n < -0.5)) ? "size" : (k < -0.5) ? 'angle' : "*undetermined*";
-
-
-  console.log(m, n, k);
-  console.log("You were controlling " + sol + '.');
-  var response_text = "You were controlling " + sol + "."
-  var html_response = document.getElementById("Analysis");
-  html_response.innerHTML = response_text;
-
-
-  var h = stat.pearson(pos_rec, size_rec);
-  var j = stat.pearson(size_rec, angle_rec);
-  var k = stat.pearson(angle_rec, pos_rec);
-  console.log("dist_p", stat.min(dist_p), stat.max(dist_p));
-  console.log("dist_s", stat.min(dist_s), stat.max(dist_s));
-  console.log("dist_a", stat.min(dist_a), stat.max(dist_a));
-  //console.log(h, j, k);
-
-  plot({
-    canvas: 'c1',
-    data: [dist_p, pos_rec, slider_pos],
-    yScale: 0.15
-  });
-  plot({
-    canvas: 'c2',
-    data: [dist_s, size_rec, slider_size],
-    yScale: 0.6
-  });
-  plot({
-    canvas: 'c3',
-    data: [dist_a, angle_rec, slider_angle],
-    yScale: 13
-  });
-  //  plot({canvas: 'c4', data: r_slider, yScale: 0.01});
-  mode = 'animate';
+  requestAnimFrame(animate);
 }
-
-var select_mode = {
-  'record': record,
-  'animate': animate,
-  'analyze': analyze
-};
-
-function fnStep() {
-  select_mode[mode]();
-  requestAnimFrame(fnStep);
-}
-
-requestAnimFrame(fnStep);
-};
-*/
