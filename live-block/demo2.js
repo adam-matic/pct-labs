@@ -1,34 +1,28 @@
-/*
-to do:
-  + change all function names to a single style (snake_case)
-  one minute run and plotting
-    + add buttons for live vs one minute
-    + add automatic disturbance vs manual button
-    + random dist generator
-    - one minute runner
-    - automatic recalculation on changing params
-  separate ploting to a different file
-
-  + colors and indicators
-*/
-
 "use strict";
 
 var fl, feedback_loop, init, animate;
 
 
 var simulation = {
-  disturbance_mode: 'manual', //'auto', //'manual',
+  disturbance_mode: 'manual', //'auto'
   colors: {
-    p: "#8e81ce",
-    r: "#b15e6c",
-    d: "#014981",
-    e: "#5c4b5e",
-    qo: "#242028",
-    qi: "#aaaaaa",
-    qo: "#105060"
+    'p': "#8e81ce",
+    'r': "#b15e6c",
+    'd': "#014981",
+    'e': "#5c4b5e",
+    'qo': "#242028",
+    'qi': "#0bc15f",
+    'qf': "#105060"
   },
-  plot_vars: ['p', 'r', 'd', 'qo', 'e'],
+  plot_vars: {
+    'p': true,
+    'r': true,
+    'd': true,
+    'qi': true,
+    'e': true,
+    'qo': true,
+    'qf': false
+  },
   fl: feedback_loop(),
   data: {
     p: [],
@@ -37,16 +31,15 @@ var simulation = {
     d: [],
     qi: [],
     qo: [],
-    f: []
+    qf: []
   },
-  signal_names: ['p', 'r', 'd', 'e', 'f', 'qi', 'qo'],
+  signal_names: ['p', 'r', 'd', 'e', 'qo', 'qi', 'qf'],
   add_data: function (signals) {
     for (var i = 0; i < 7; i += 1) {
       var k = this.signal_names[i];
       this.data[k].push(signals[k]);
     }
-  },
-  svg_plot: ""
+  }
 };
 
 
@@ -112,162 +105,15 @@ function run(sim) {
     var t = sim.fl.get_signals();
     sim.add_data(t);
 
-    plot.update([t.p, t.e, t.r, t.d, t.qo]);
+    plot.update(t);
 
     requestAnimFrame(step);
   }
 
-
-
   requestAnimFrame(step);
 }
 
-/*
-function time_domain_runner(sim) {
-  var i, k, maximum = 600;
 
-  function reset() {
-    sim.data.p = [];
-    sim.data.e = [];
-    sim.data.qi = [];
-    sim.data.qo = [];
-    sim.data.f = [];
-  }
-
-
-  var cycles = 600;
-
-  function next_dist() {
-    var d_variable = dist_maker(0.02, 30),
-      d_const = sim.fl.params.d;
-
-    function next(n) {
-      if (sim.disturbance_mode === 'auto') {
-        if (sim.data.d.length === 600) {
-          return sim.data.d[n];
-        } else {
-          return d_variable.next();
-        };
-      } else {
-        return d_const;
-      }
-
-    }
-    return {
-      next: next
-    }
-  }
-
-  function next_ref() {
-    var r_const = sim.fl.params.r;
-
-    function next(n) {
-      return r_const;
-    }
-    return {
-      next: next
-    }
-  }
-
-  var nd = next_dist(),
-    nr = next_ref();
-
-  var i = 0,
-    s;
-  reset();
-  sim.fl.reset();
-  for (i = 0; i < cycles; i++) {
-    sim.fl.set_params({
-      'r': nr.next(i),
-      'd': nd.next(i)
-    });
-    sim.fl.next();
-    s = sim.fl.get_signals();
-    for (k in sim.data) {
-      sim.data[k][i] = s[k];
-    }
-    //   if (sim.data[k].length > maximum) sim.data[k].shift();
-
-  }
-}
-
-*/
-/*
-function svg_plot() {
-  var point_strings = {
-    p: "",
-    r: "",
-    d: "",
-    qo: "",
-    e: ""
-  };
-  var i = 0,
-    k;
-  var g = {
-    p: [],
-    r: [],
-    d: [],
-    qo: [],
-    e: []
-  };
-  var elem = {
-    p: "",
-    r: "",
-    d: "",
-    qo: "",
-    e: ""
-  };
-  var names = ['p', 'r', 'e', 'qo', 'd'];
-
-  for (k in g) {
-    elem[k] = document.getElementById("g" + k);
-    elem[k].style.stroke = simulation.colors[k];
-  }
-  for (var k in g) {
-    i = 600;
-    while (i--) {
-      g[k].push(0);
-      point_strings[k] += "0,100 ";
-    }
-  }
-
-  function update(sim) {
-    var t = sim.fl.get_signals();
-    for (k in g) {
-      g[k].shift();
-      g[k].push(t[k]);
-    }
-    for (i = 0; i < 5; i++) {
-      //  elem[i].setAttribute("points", toLine(g[names[i]], -5, 100));
-    }
-  }
-
-  function toLine(arr, scale, offset) {
-    var i = 0,
-      l = arr.length,
-      s = "";
-    for (; i < l; i++) {
-      s += "" + i + "," + (offset + arr[i] * scale) + " ";
-    }
-    return s;
-  }
-
-
-  function new_plot(data) {
-    for (k in g) {
-      console.log(elem);
-      elem[k].setAttribute("points", toLine(data[k], -5, 100));
-    }
-
-  }
-  return {
-    update: update,
-    new_plot: new_plot
-  }
-
-}
-
-*/
 function init_screen(sim) {
 
   var bind_names, i, slider_name, label_name, slider, label, param_value,
@@ -280,8 +126,6 @@ function init_screen(sim) {
       "slider-slowing": 'S',
       "slider-delay": 'delay'
     };
-
-  //  sim.svg_plot = svg_plot();
 
   function bind_slider(range_slider, label, param_val) {
     range_slider.oninput = function () {
@@ -329,17 +173,34 @@ function init_screen(sim) {
     sim.disturbance_mode = 'auto';
   }
 
+  //set plot colors and checks
+
+  for (var i = 0; i < 7; i++) {
+    var k = sim.signal_names[i];
+
+    function chk(name) {
+      return function () {
+        simulation.plot_vars[name] = document.getElementById("plot-" + name).checked;
+      };
+    };
+
+    chk(k)();
+    document.getElementById("plot-" + k).onchange = chk(k);
+
+    document.getElementById("legend-" + k).style.color = simulation.colors[k];
+  }
+
 }
 
 function feedback_loop() {
-  "use strict";
+
   var
     p = 0,
     r = 0,
     d = 0,
     e = 0,
     qo = 0,
-    f = 0,
+    qf = 0,
     qi = 0,
     dt = 1 / 60,
     delay_FIFO = [],
@@ -355,13 +216,13 @@ function feedback_loop() {
 
   function get_signals() {
     return {
-      p: p,
-      r: r,
-      e: e,
-      qo: qo,
-      f: f,
-      d: d,
-      qi: qi
+      'p': p,
+      'r': r,
+      'e': e,
+      'd': d,
+      'qo': qo,
+      'qf': qf,
+      'qi': qi
     };
   }
 
@@ -373,7 +234,7 @@ function feedback_loop() {
     qo = 0;
     qi = 0;
     delay_FIFO = [];
-    f = 0;
+    qf = 0;
   }
 
   function set_params(new_params) {
@@ -398,11 +259,11 @@ function feedback_loop() {
     r = P.r;
     d = P.d;
 
-    qi = d + f;
+    qi = d + qf;
     p = get_delayed(P.Ki * qi, P.delay);
     e = r - p;
     qo += (P.Ko * e - qo) * (dt / P.S);
-    f = qo * P.Kf;
+    qf = qo * P.Kf;
 
     constrain_all();
   }
@@ -411,7 +272,7 @@ function feedback_loop() {
     var limit = 100;
     p = constrain(p, -limit, limit);
     e = constrain(e, -limit, limit);
-    f = constrain(f, -limit, limit);
+    qf = constrain(qf, -limit, limit);
     qi = constrain(qi, -limit, limit);
     qo = constrain(qo, -limit, limit);
   }
@@ -453,13 +314,11 @@ function dist_maker(dificulty, amp) {
 }
 
 function plot_mult(prop) {
-  'use strict';
-
   var canvas, ctx, width, zero, xScale, yScale, h, clr, t, height, imageData, past_point,
     fastImage;
   past_point = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   yScale = prop.yScale;
-  // also try shifting the bitmap
+
   canvas = document.getElementById(prop.canvas);
   canvas.width = 600;
   ctx = canvas.getContext('2d');
@@ -470,19 +329,19 @@ function plot_mult(prop) {
 
   var counter = 0;
   ctx.lineWidth = 1.5;
-  clr = [prop.clr.p, prop.clr.r, prop.clr.d, prop.clr.e, prop.clr.qo, prop.clr.f, prop.clr.qi];
 
   function update(points) {
     imageData = ctx.getImageData(1, 0, width, height);
     ctx.putImageData(imageData, 0, 0);
     ctx.clearRect(width - 1, 0, 4, height);
 
-
-    for (t = 0; t < points.length; t += 1) {
-      ctx.strokeStyle = clr[t];
+    for (t = 0; t < 7; t += 1) {
+      var k = simulation.signal_names[t];
+      if (simulation.plot_vars[k] == false) continue;
+      ctx.strokeStyle = simulation.colors[k];
       ctx.beginPath();
       ctx.moveTo(width - 2, zero - past_point[t]);
-      var y = yScale * points[t];
+      var y = yScale * points[k];
       ctx.lineTo(width - 1, zero - y);
       ctx.stroke();
       past_point[t] = y;

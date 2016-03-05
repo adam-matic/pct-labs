@@ -74,8 +74,8 @@
     <div class="signal-wrap indicator" id="ind-e">
       <div class="signal-size indicator" id="ind-bar-e"></div>
     </div>
-    <div class="signal-wrap indicator" id="ind-f">
-      <div class="signal-size indicator" id="ind-bar-f"></div>
+    <div class="signal-wrap indicator" id="ind-qf">
+      <div class="signal-size indicator" id="ind-bar-qf"></div>
     </div>
     <div class="signal-wrap indicator" id="ind-d">
       <div class="signal-size indicator" id="ind-bar-d"></div>
@@ -96,7 +96,7 @@
     <p class="signal-value" id="r">0.00</p>
     <p class="signal-value" id="e">0.00</p>
     <p class="signal-value" id="qo">0.00</p>
-    <p class="signal-value" id="f">0.00</p>
+    <p class="signal-value" id="qf">0.00</p>
     <p class="signal-value" id="d">0.00</p>
     <p class="signal-value" id="qi">0.00</p>
     <p class="signal-value" id="Ki">0.00</p>
@@ -139,25 +139,44 @@
       <br>
       <input type="radio" name="auto-disturbance" id="manual" checked>Manual
       <br>
-      <input type="radio" name="auto-disturbance" id="auto">Auto
+      <input type="radio" name="auto-disturbance" id="auto">Auto (random)
     </form>
 
     <div id="canvas-div">
       <canvas id='c1'></canvas>
+
+      <div id="plot-signals-div">
+        <div id="legend-p">-
+          <input type="checkbox" name="plot-p" id="plot-p" checked>Perceptual signal
+        </div>
+
+        <div id="legend-r">-
+          <input type="checkbox" name="plot-r" id="plot-r">Reference signal
+        </div>
+
+        <div id="legend-e">-
+          <input type="checkbox" name="plot-e" id="plot-e">Error signal
+        </div>
+
+        <div id="legend-d">-
+          <input type="checkbox" name="plot-d" id="plot-d" checked>Disturbance
+        </div>
+
+        <div id="legend-qi">-
+          <input type="checkbox" name="plot-qi" id="plot-qi">Input quantity
+        </div>
+
+        <div id="legend-qo">-
+          <input type="checkbox" name="plot-qo" id="plot-qo" checked>Output quantity
+        </div>
+
+        <div id="legend-qf">-
+          <input type="checkbox" name="plot-qf" id="plot-qf">Feedback quantity
+        </div>
+      </div>
+
     </div>
 
-    <div id="paper">
-      <svg id="papersvg" width="600" , height="300">
-        <polyline id="gp" style="fill:none; stroke-width:2"> a </polyline>
-        <polyline id="ge" style="fill:none; stroke-width:2"> </polyline>
-        <polyline id="gd" style="fill:none; stroke-width:2"> </polyline>
-        <polyline id="gr" style="fill:none; stroke-width:2"> </polyline>
-        <polyline id="gqo" style="fill:none; stroke-width:2"> </polyline>
-        <polyline id="gqi" style="fill:none; stroke-width:2"> </polyline>
-        <polyline id="gf" style="fill:none; stroke-width:2"> </polyline>
-
-      </svg>
-    </div>
   </div>
 </body>
 

@@ -1,38 +1,92 @@
 <!DOCTYPE html>
 <html>
+
 <body>
   <style type="text/css">
-    ul {margin:0px; padding:0px; font-size: 12px; font-family: sans-serif;}
-    ul li {display: block ;position: relative;border:1px solid #000; float:left;}
-    li ul {display: none;}
-    ul li a {display: block;background: #000;padding: 8px;text-decoration: none;
-           white-space: nowrap;color: #fff; z-index: 100; }
-    ul li a:hover {background: #444;}
-    li:hover ul {display: block; position: absolute; z-index: 100;}
-    li:hover li {float: none; z-index: 100;}
-    li:hover a {background: #444; z-index: 100; width:auto;}
-    li:hover li a:hover {background: #000; z-index: 100;}
-    #drop-nav { width: 100%; background: #000; height: 35px;}
-    #main-menu-div {width:700px; margin:auto; padding: auto; position:relative;};
+    ul {
+      margin: auto;
+      padding: auto;
+      font-size: 12px;
+      font-family: sans-serif;
+    }
+
+    ul li {
+      display: block;
+      position: relative;
+      border: 1px solid #000;
+      float: left;
+    }
+
+    li ul {
+      display: none;
+    }
+
+    ul li a {
+      display: block;
+      background: #000;
+      padding: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      color: #fff;
+      z-index: 100;
+    }
+
+    ul li a:hover {
+      background: #444;
+    }
+
+    li:hover ul {
+      display: block;
+      position: absolute;
+      z-index: 100;
+    }
+
+    li:hover li {
+      float: none;
+      z-index: 100;
+    }
+
+    li:hover a {
+      background: #444;
+      z-index: 100;
+      width: auto;
+    }
+
+    li:hover li a:hover {
+      background: #000;
+      z-index: 100;
+    }
+
+    #drop-nav {
+      width: 100%;
+      background: #000;
+      height: 35px;
+    }
+
+    #main-menu-div {
+      width: 80%;
+      margin: auto;
+      padding: 2px;
+    }
   </style>
 
-
-  <div id = "main-menu-div">
+  <div id="main-menu-div">
     <ul id="drop-nav">
-    <li><a href="/index.html">Home</a></li>
-    <li><a href="/intro/index.html">Intro</a></li>
-    <li><a href="#">LCS III</a>
-      <ul>
-        <li><a href="/demo1/index.html">Feel for control</a></li>
-        <li><a href="/demo2/index.html">Live Block</a></li>
-        <li><a href="/demo3/index.html">Track Analyze</a></li>
-        <li><a href="/demo4/index.html">Non-adaptive</a></li>
-        <li><a href="/demo5/index.html">...</a></li>
-        <li><a href="#">...</a></li>
-      </ul>
-    </li>
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/intro/index.html">Intro</a></li>
+      <li><a href="#">LCS III</a>
+        <ul>
+          <li><a href="/demo1/index.html">Feel for control</a></li>
+          <li><a href="/demo2/index.html">Live Block</a></li>
+          <li><a href="/demo3/index.html">Track Analyze</a></li>
+          <li><a href="/demo4/index.html">Non-adaptive</a></li>
+          <li><a href="/demo5/index.html">...</a></li>
+          <li><a href="#">...</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 
-  </body>
+</body>
+
 </html>

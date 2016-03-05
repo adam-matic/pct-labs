@@ -1,0 +1,461 @@
+#main_box {
+  position: relative;
+  height: 670px;
+  width: 800px;
+  /*border: solid 1px;*/
+  font-family: sans-serif;
+  font-size: 13px;
+  margin: 80px auto;
+  padding: auto;
+}
+
+#canvas-div {
+  position: absolute;
+  width: 100%;
+  height: 100;
+  top: 490px;
+  float: left;
+}
+
+#plot-signals-div {
+  position: absolute;
+  right: 50px;
+  top: 12px;
+  float: left;
+}
+
+
+/*#c1 { width: 100%; height: 100%; }*/
+
+form[id="dist-choice"] {
+  position: absolute;
+  top: 390px;
+  left: 20px;
+  width: 140px;
+}
+
+.indicator {
+  position: absolute;
+  height: 4px;
+  width: 50px;
+}
+
+.signal-wrap .signal-size {
+  position: relative;
+  background-color: red;
+  left: 25px;
+  height: 4px;
+  width: 1px;
+}
+
+#ind-p {
+  top: 154px;
+  left: 270px;
+}
+
+#ind-e {
+  top: 154px;
+  left: 490px;
+}
+
+#ind-d {
+  top: 396px;
+  left: 200px;
+}
+
+#ind-r {
+  top: 95px;
+  left: 375px;
+}
+
+#ind-qo {
+  top: 285px;
+  left: 580px;
+}
+
+#ind-qi {
+  top: 285px;
+  left: 166px;
+}
+
+#ind-qf {
+  top: 343px;
+  left: 320px;
+}
+
+.function_box {
+  position: absolute;
+  border: solid 1px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: lightgray;
+  padding: 11px;
+  border-radius: 4px;
+}
+
+#input_box {
+  top: 180px;
+  left: 175px;
+}
+
+#output_box {
+  top: 180px;
+  right: 170px;
+}
+
+#comparator_box {
+  top: 140px;
+  left: 355px;
+}
+
+#feedback_box {
+  top: 320px;
+  left: 410px;
+}
+
+input[type=range] {
+  width: 130px;
+}
+
+div.holder {
+  position: absolute;
+  width: 130px;
+  height: 50px
+}
+
+#div-delay {
+  top: 125px;
+  left: 20px;
+}
+
+#div-in-gain {
+  top: 205px;
+  left: 20px;
+}
+
+#div-reference {
+  top: 5px;
+  left: 335px;
+  text-align: center;
+}
+
+#div-out-gain {
+  top: 125px;
+  left: 650px;
+}
+
+#div-slowing {
+  top: 205px;
+  left: 650px;
+}
+
+#div-disturbance {
+  top: 425px;
+  left: 160px;
+  text-align: center;
+}
+
+#div-fgain {
+  top: 380px;
+  left: 420px;
+}
+
+p.signal-name {
+  position: absolute;
+  margin: auto;
+}
+
+p.signal-name[id=ps] {
+  top: 120px;
+  left: 240px;
+}
+
+p.signal-name[id=es] {
+  top: 120px;
+  left: 480px;
+}
+
+p.signal-name[id=qis] {
+  top: 295px;
+  left: 80px;
+}
+
+p.signal-name[id=qos] {
+  top: 295px;
+  left: 635px;
+}
+
+p.signal-name[id=fqs] {
+  top: 365px;
+  left: 290px;
+}
+
+#boundary-label-system {
+  position: absolute;
+  top: 240px;
+  left: 350px;
+  font-style: italic;
+}
+
+#boundary-label-environment {
+  position: absolute;
+  top: 270px;
+  left: 340px;
+  font-style: italic;
+}
+
+.signal-value {
+  position: absolute;
+  font-family: monospace;
+  margin: auto;
+  text-align: right;
+  width: 50px
+}
+
+.signal-value[id=p] {
+  top: 136px;
+  left: 265px;
+}
+
+.signal-value[id=e] {
+  top: 136px;
+  left: 485px;
+}
+
+.signal-value[id=r] {
+  top: 77px;
+  left: 370px;
+}
+
+.signal-value[id=qo] {
+  top: 295px;
+  left: 580px;
+}
+
+.signal-value[id=qf] {
+  top: 348px;
+  left: 312px;
+}
+
+.signal-value[id=d] {
+  top: 405px;
+  left: 195px;
+}
+
+.signal-value[id=qi] {
+  top: 295px;
+  left: 165px;
+}
+
+.signal-value[id=Kf] {
+  top: 379px;
+  left: 510px;
+}
+
+.signal-value[id=Ko] {
+  top: 177px;
+  left: 740px;
+}
+
+.signal-value[id=S] {
+  top: 205px;
+  left: 740px;
+}
+
+.signal-value[id=delay] {
+  top: 177px;
+  left: 120px;
+}
+
+.signal-value[id=Ki] {
+  top: 206px;
+  left: 120px;
+}
+
+#qicircle {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  border: solid 1px;
+  border-radius: 20px;
+  top: 328px;
+  left: 216px;
+}
+
+#plus1 {
+  position: absolute;
+  top: 105px;
+  left: 405px;
+}
+
+#plus2 {
+  position: absolute;
+  top: 332px;
+  left: 250px;
+}
+
+#plus3 {
+  position: absolute;
+  top: 349px;
+  left: 212px;
+}
+
+#minus1 {
+  position: absolute;
+  top: 150px;
+  left: 340px;
+}
+
+div.lines {
+  position: absolute;
+  border: solid 1px;
+}
+
+#line1 {
+  width: 0px;
+  height: 30px;
+  top: 102px;
+  left: 400px;
+}
+
+#line2 {
+  width: 126px;
+  height: 0px;
+  top: 160px;
+  left: 447px;
+}
+
+#line3 {
+  width: 0px;
+  height: 15px;
+  top: 160px;
+  right: 225px;
+}
+
+#line4 {
+  width: 0px;
+  height: 119px;
+  top: 219px;
+  right: 225px;
+}
+
+#line5 {
+  width: 29px;
+  height: 0px;
+  top: 338px;
+  left: 544px;
+}
+
+#line6 {
+  width: 165px;
+  height: 0px;
+  top: 338px;
+  right: 390px;
+}
+
+#line7 {
+  width: 0px;
+  height: 101px;
+  top: 222px;
+  left: 225px;
+}
+
+#line8 {
+  width: 0px;
+  height: 30px;
+  top: 360px;
+  left: 225px;
+}
+
+#line9 {
+  width: 0px;
+  height: 18px;
+  top: 160px;
+  left: 225px;
+}
+
+#line10 {
+  width: 125px;
+  height: 0px;
+  top: 160px;
+  left: 225px;
+}
+
+#line11 {
+  width: 600px;
+  height: 0px;
+  top: 275px;
+  left: 100px;
+  border: dashed 1px;
+}
+
+div.arrow-down {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid black;
+}
+
+div.arrow-left {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 8px solid black;
+}
+
+div.arrow-right {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid black;
+}
+
+div.arrow-up {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid black;
+  border-left: 5px solid transparent;
+}
+
+#arrow-down1 {
+  left: 396px;
+  top: 132px;
+}
+
+#arrow-down2 {
+  right: 221px;
+  top: 172px;
+}
+
+#arrow-left1 {
+  left: 239px;
+  top: 334px;
+}
+
+#arrow-up1 {
+  left: 221px;
+  top: 352px;
+}
+
+#arrow-up2 {
+  left: 221px;
+  top: 219px;
+}
+
+#arrow-right1 {
+  left: 346px;
+  top: 156px;
+}
+
+#arrow-left2 {
+  left: 542px;
+  top: 334px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="../common/snap.svg.js"></script>
+  <script src="../lib/lib.js"></script>
+  <script src="time-domain.js"></script>
+
+  <title>Control system in the time domain</title>
+
+</head>
+
+<style>
+  #container {
+    padding: auto;
+    margin: auto;
+    width: 80%;
+    height: 250px;
+    border: 1px solid black;
+  }
+
+  #plot {
+    padding: auto;
+    margin: auto;
+    width: 80%;
+    height: 100px;
+    border: 1px solid black;
+  }
+</style>
+
+<body>
+  <div id="menulink"></div>
+  <center>
+    <svg id="container" version="1.1" xmlns="http://www.w3.org/2000/svg"> </svg>
+    <svg id="plot"></svg>
+
+  </center>
+</body>
+
+<script>
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '../common/menu.html', true);
+  xhr.onreadystatechange = function () {
+    if (this.readyState !== 4) return;
+    if (this.status !== 200) return;
+    document.getElementById('menulink').innerHTML = this.responseText;
+  };
+  xhr.send();
+
+  /*
+                (function (i, s, o, g, r, a, m) {
+                  i['GoogleAnalyticsObject'] = r;
+                  i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                  }, i[r].l = 1 * new Date();
+                  a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                  a.async = 1;
+                  a.src = g;
+                  m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-64080149-1', 'auto');
+                ga('send', 'pageview');*/
+</script>
+
+</html>
