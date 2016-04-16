@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/common/style.css">
+
+  <title>Tutorial 1</title>
+</head>
+
+<body>
+  <center>
+    <div id="menulink"></div>
+  </center>
+  <center>
+    <h1><font face = "Helvetica">INTRODUCTION TO<br>CYBERNETIC CONTROL THEORY</font></h1>
+    <h2><font face = "Helvetica">Part 1: The phenomenon of control</font></h2>
+  </center>
+
+  <div id="main_frame">
+    <center>
+      <h3>STEP A: INTRODUCTION</h3></center>
+
+    <p>Control is the process by which an organism acts on the environment to make some aspect of it conform to an inner image, standard, or reference condition that the behaving system selects. In this series of interactive demonstrations you will experience the phenomenon of control. We will not get into theory at all. Before theory can make any sense, you have to know what needs explaining. The phenomena you will see here can't be explained by any conventional cause-effect theory of behavior. Don't worry about explanations during Part 1: just concentrate on observing and noticing relationships between what you do and what happens on the screen. The theory disk, Part 2, will answer the questions that you will undoubtedly have by the time you finish with Part 1.</p>
+
+    <center>
+      <h3>STEP B: MEASURING ACTION</h3></center>
+    <p>In control theory we refer to actions and other processes not as events but as continuous variations in continuous variables. We don't count behaviors or processes -- we measure them, we think of them as variables that can change over some range. Even when behavior involves the use of discrete symbols, it is almost always possible to see an underlying continuum, with the symbol referring to one point or a subrange of that continuum. Control systems operate in this underlying continuum. We will be concerned here only with simple motor behavior acting in an arc or along a line. No matter what you are controlling during these demonstrations, you will do it by placing one hand in some position or some series of positions along a continous range of positions.</p>
+    <p> In all these experiments, pay particular attention to the continuity of motion and to the way all the variables, including your own actions, change at the same time. The effects of your actions go on at the same time as the actions, not after they are finished. You act while the images on the screen are changing, not after they have finished changing. Thinking in terms of continuous variables will help you to see this simultaneous interaction clearly.</p>
+
+    <center>
+      <h3>STEP C: MEASURING HANDLE POSITION</h3></center>
+    <p> Your control handle is connected to the computer, which samples its position 60 times per second (as near to continuously as we can achieve). Its center position is represented by ZERO. When the handle moves right, the position is measured as a positive number; when it moves left, the position is represented as a negative number. To the computer, that number IS the position of the handle: it can "feel" but it can't see. Move the handle left and right and watch the numbers change. You will see that the representation is continuous. If you're using a game joystick or mouse, only one of the directions is sensed; the other is ignored. The reading is scaled so that the maximum up/forward position corresponds to a reading of about 200, and the other extreme corresponds to about -200. </p>
+
+
+    <p>HERE IS THE HANDLE POSITION: h = <span id="C-handle-pos-indicator">0</span></p>
+    <center>
+      <svg style="width:405px; height:70px; background-color:#ddd;" id="C-screen"></svg>
+      <input type="range" id="C-handle-slider" style="width:400px;">
+    </center>
+    <br>
+
+    <center>
+      <h3>STEP D: EFFECT OF HANDLE ON CURSOR</h3></center>
+    <p>The handle affects a cursor -- a short vertical bar that can move left and right. The number representing handle position is used by the computer to position the cursor in the left-right direction. The cursor position is also represented by a number. In this step the number is the same as for handle position. The cursor is called an input quantity because it is a visual input to you, the controlling system.
+      <center>
+        <svg style="width:405px; height:70px; background-color:#ddd;" id="D-screen"></svg>
+        <input type="range" id="D-handle-slider" style="width:400px;">
+        <p>Handle: <span id="D-handle-indicator">0</span></p>
+        <p>Cursor: <span id="D-cursor-indicator">0</span></p>
+      </center>
+
+    </p>
+    <center>
+      <h3>STEP E: DISTURBANCES</h3></center>
+
+    <p>
+      In the real world, our own actions are not the only influences that can alter variables outside us. There are also disturbances. The input quantities that we sense and control are affected both by our own actions and by independent disturbances. In general there can be many simultaneous disturbing influences. In control theory when we say "disturbance" we mean the cause of a disturbance, not its effect. Influences that might cause disturbances do not necessarily have any effect -- control actions may cancel the effect.
+    </p>
+
+    <p>In this step we add an independent disturbance that influences the position of the cursor. The magnitude of the disturbing quantity is expressed as a number, just as the handle and cursor positions are. Now the cursor position is found by adding the handle number to the disturbance number. If you hold the handle centered you can see the changing effect of the disturbance. When you move the handle, the cursor now doesn't move exactly as the handle moves. The disturbance interferes with the effect of the handle on the cursor.
+    </p>
+
+    <center>
+      <svg style="width:405px; height:70px; background-color:#ddd;" id="E-screen"></svg>
+      <input type="range" id="E-handle-slider" style="width:400px;">
+      <p>Handle: <span id="E-handle-indicator">0</span></p>
+      <p>Cursor: <span id="E-cursor-indicator">0</span></p>
+      <p>Disturbance: <span id="E-dist-indicator">0</span></p>
+      <input type=button id="E-start" value="Start disturbance">
+    </center>
+
+    <p>
+
+      Hold the handle still to see the effect of the disturbance acting alone. Cursor position below is always exactly equal to handle number + disturbance number. It's not determined either by handle or by disturbance alone. It's a joint effect of both. You can pause and restart the action with the Start disturbance button to check the numbers. The cursor number positions the bar.
+    </p>
+    <center>
+      <h3> STEP F: COMPENSATORY TRACKING</h3></center>
+
+    <p>Now you are ready to try the simplest kind of control experiment, called "compensatory tracking." That name really comes from a wrong model of how this works, but for tradition's sake we keep it. This isn't compensation: it's control. </p>
+    <p>You will see two stationary bars now, with the cursor moving up and down between them. The object is simple: keep the cursor bar exactly between the target bars for 30 seconds. You will have about 5 seconds to gain control; then data recording will start. At the end of the 30 seconds, the handle, cursor, and disturbance numbers will be plotted, showing you what you did. The x-axis of the plot is time.
+    </p>
+    <p>
+      HOLD CURSOR BETWEEN TARGET BARS.
+    </p>
+    <center>
+      <input type="button" id="F-start" value="START">
+      <br>
+      <br>
+      <svg style="width:405px; height:70px; background-color:#ddd;" id="F-screen"></svg>
+      <input type="range" id="F-handle-slider" style="width:400px;">
+      <br>
+      <br>
+      <br>
+
+      <svg style="width:500px; height:100px;" id="F-plot"></svg>
+    </center>
+
+    <p>
+      The handle goes in the opposite direction from the disturbance. That is what keeps the cursor stable. This is rather remarkable, as you could not sense the disturbance directly. The cursor trace doesn't resemble the handle trace. In fact, for the run shown, the correlation of cursor position and handle position is
+      <span id="F-corr-cursor-handle">...</span>. On the other hand, the correlation between handle position and the (invisible) disturbance magnitude is
+      <span id="F-corr-handle-disturbance">...</span>.
+    </p>
+    <center>
+      <h3>STEP G: PURSUIT TRACKING</h3></center>
+    <p>
+      Compensatory tracking requires holding a cursor next to a stationary target. When the target moves, the task is called "pursuit tracking." In fact there is almost no difference between these tasks. In both cases, the cursor is being kept near the target. In both cases the controlled variable can be defined as the difference in target and cursor positions: the target position is zero in compensatory tracking.
+    </p>
+    <p>
+      In step G we apply a disturbance to the target as well as to the cursor. After an experimental run, we plot the distance between target and cursor instead of just cursor position. The effective disturbance is now the disturbance applied to the cursor minus the disturbance applied to the target. This effective disturbance is also plotted. The third tracing will be the handle position as before.
+    </p>
+
+    <p>
+      HOLD CURSOR BETWEEN TARGET BARS.
+    </p>
+    <center>
+      <input type="button" id="G-start" value="START">
+      <br>
+      <br>
+      <svg style="width:405px; height:70px;  background-color:#ddd;" id="G-screen"></svg>
+      <input type="range" id="G-handle-slider" style="width:400px;">
+      <br>
+      <br>
+      <br>
+
+      <svg style="width:500px; height:100px;" id="G-plot"></svg>
+    </center>
+
+    <p>
+      The plot looks the same as for compensatory tracking. Now, however, the "cursor" is the difference between cursor and target positions, and the "disturbance" is the difference between the target disturbance and cursor disturbance. The correlation of handle with cursor minus target is now <span id="G-corr-hc">...</span>, and the correlation between handle and net disturbance is now <span id="G-corr-hd">...</span>.
+    </p>
+
+    <center>
+      <h3>STEP H: BEYOND TRACKING</h3></center>
+
+    <p>
+      There is much more to the idea of control than tracking, the control of relative position. Anything that can vary, that can be sensed, and that can be affected by action can be controlled. In this demonstration you have a choice of variables to control.
+    </p>
+    <p>
+      Select the type of variable you want to control:
+      <br>
+      <input type="radio" name="H-radio" id="H-rel-size-start" checked>Relative size
+      <input type="radio" name="H-radio" id="H-orient-start">Orientation
+      <input type="radio" name="H-radio" id="H-shape-start">Shape
+      <input type="radio" name="H-radio" id="H-pitch-start">Pitch of sound
+      <input type="radio" name="H-radio" id="H-numbers-start">Numbers
+      <br>
+      <br>
+      <span id="H-instructions"></span>
+      <input type="button" id="H-start-button" value="Start">
+      <br>
+      <br>
+      <center>
+        <svg style="width:405px; height:150px;  background-color:#ddd;" id="H-screen"></svg>
+        <input type="range" id="H-handle-slider" style="width:400px;">
+        <br>
+        <br>
+        <br>
+
+        <svg style="width:500px; height:100px;" id="H-plot"></svg>
+      </center>
+    </p>
+    <p>
+      As long as the state of the controlled variable can be represented as a one-dimensional number, the remainder of the control system works just as before. The correlation of handle with the controlled variable is <span id="H-corr-hc">...</span>, and between handle and net disturbance is now <span id="H-corr-hd">...</span>.
+    </p>
+    <center>
+      <h3>STEP I: ACCIDENTAL VS INTENTIONAL CONSEQUENCES</h3></center>
+    <p>
+      In a stimulus-response or lineal model of behavior, stimuli or cerebral commands cause behavior, and behavior leads to consequences in the environment. If a given action has multiple effects, there is no way to say that one of those effects was intentional and the rest were accidental or side-effects. They are all simply effects, or consequences.
+    </p>
+    <p>
+      Control theory says that action is varied to control some perceived consequence of action. The same action may have other consequences, but they are not under control. We can tell which effect of action is under control by applying disturbances to it. If a particular effect is under control, the system's action will vary in exact opposition to changes in the disturbance. If there is no control, action and disturbance will still combine to produce an effect, but there will be no systematic opposition.
+    </p>
+    <p>
+      In this demonstration, the control handle affects three cursors, all in exactly the same way. Each cursor is subject to a different pattern of disturbance. You will pick one cursor to hold steady. At the end of a short experimental run, you will see plots that show how handle movement, disturbance, and cursor movement were related for each cursor. (Three disturbances are selected at random).
+      <br> HOLD ONE OF THE CURSORS EXACTLY LEVEL WITH THE OUTER TWO (TARGET) LINES
+    </p>
+
+    <center>
+      <input type="button" id="I-start" value="START">
+      <br>
+      <br>
+      <svg style="width:405px; height:150px; background-color:#ddd;" id="I-screen"></svg>
+      <input type="range" id="I-handle-slider" style="width:400px;">
+      <br>
+      <br>
+      <br>
+
+      <svg style="width:500px; height:100px;" id="I-plot1"></svg>
+      <svg style="width:500px; height:100px;" id="I-plot2"></svg>
+      <svg style="width:500px; height:100px;" id="I-plot3"></svg>
+
+    </center>
+
+    <p>YOU CONTROLLED: <span id="I-controlled-cursor"> ... </span></p>
+    <p>
+      DETECTING THE INTENDED EFFECT</p>
+    <p>
+      The cursor that varies the least is the one you were controlling. The computer finds it by looking for the lowest correlation of handle position & cursor position.
+    </p>
+
+    <center>
+      <h3>STEP J: EFFECT OF CHANGING THE FEEDBACK FACTOR</h3></center>
+    <p>
+      In all the demonstrations so far, moving the handle has had a fixed amount of effect on the cursor movement. Suppose we increase or decrease the effect of the handle on the cursor, so that moving the handle a certain amount makes the cursor move either more or less than it moved before for the same handle movement. If, for example, a given handle movement moves the cursor twice as much, do you think the cursor will move twice as much? That seems reasonable, but that is not what happens. In this demonstration we will see what actually happens.
+      <p>We will use the compensatory tracking experiment to demonstrate the effect. Before starting the experimental run, you will be asked to pick a "feedback factor" somewhere between 50 and 200 percent of the factor that has been used in the previous demonstrations (numbers outside that range will be ignored). You will have the opportunity to rerun the experiment as often as you like, trying different factors, to see the effect. You might like to start with a factor of 200, giving the handle twice as much effect as before, to see the answer to the question proposed above.</p>
+      <p>
+
+        Please enter a feedback factor between 50 and 200. If you enter 100, the factor will be the same as it has been in all the previous demonstrations. A factor of 50 makes the cursor move half as much as before, a factor of 200 makes it move twice as much. If you type a number outside the range of 50 to 200, it will be ignored.
+      </p>
+      <p> HOLD THE CURSOR EXACTLY LEVEL WITH THE OUTER TWO (TARGET) LINES
+      </p>
+      Feedback factor:
+      <input id="J-feedback-factor" value='100' size='3' style='text-align:right'>
+      <center>
+        <input type="button" id="J-start" value="START">
+        <br>
+        <br>
+        <svg style="width:405px; height:70px; background-color:#ddd;" id="J-screen"></svg>
+        <input type="range" id="J-handle-slider" style="width:400px;">
+        <br>
+        <br>
+        <svg style="width:500px; height:100px;" id="J-plot"></svg>
+
+
+      </center>
+      <p>
+        When you DECREASE the effect of the handle on the cursor, the handle must move MORE to cancel the effect of the disturbance. INCREASING the effect requires LESS handle movement to keep the cursor controlled. Here, the handle effect is <span id="J-handle-effect">100</span>% of the "normal" amount; the handle movement is times as much as normal. The cursor remains essentially at zero, between the two target marks. Feedback effects do not work like ordinary cause and effect.
+      </p>
+
+      <center>
+        <h3>STEP K: CONTROL OF REMOTE EFFECT</h3></center>
+      <p>In either stimulus-response theory or cognitive theory, behavior is the final product of the organism. If action produces a regular effect, it is assumed that the world between the action and the effect must have remained constant. We will now look at an action that produces a regular effect by employing a link that is subject to two disturbances between the action and the effect. You will see that it is the final effect, not the action, that remains constant. William James said 100 years ago that living systems alone achieve regular ends by variable means. You will now see what he was talking about.
+      </p>
+      <p>
+        In this experiment, your control handle moves a bar of light as usual. The bar marks the end of a "string" that passes under one pulley, up and over another pulley, and finally back down to a free end. Your task is to keep the free end aligned with the stationary mark that you will see. When you start the run, the pulleys begin to wander up and down at random, adding their effects to the position of the string's free end. You will see that the task is easy if you ignore the pulleys and just watch the free end. If you try to do it by watching the pulleys and figuring how how much to move, it will be almost impossible. The final effect, not the action, is controlled.
+      </p>
+
+      <p> HOLD THE FREE END OF THE STRING EVEN WITH THE STATIONARY MARK
+      </p>
+      <center>
+        <input type="button" id="K-start" value="START">
+        <br>
+        <br>
+        <svg style="width:405px; height:140px;  background-color:#ddd;" id="K-screen"></svg>
+        <input type="range" id="K-handle-slider" style="width:400px;">
+        <br>
+        <br>
+        <br>
+
+        <svg style="width:500px; height:100px;" id="K-plot"></svg>
+      </center>
+      <p>
+        The plot is made using exactly the same analysis used for pursuit tracking, with two disturbances. The effective disturbance is the sum of pulley movements. The controlled variable is the position of the string's end. Clearly, the handle moves exactly as it must in order to keep the free end of the string near the target mark. The causal chain between action and result contains two independent disturbances, yet the final effect remains under close control. We are seeing here Aristotle's "fourth cause."
+      </p>
+      <center>
+        <h3>STEP L: FEEDFORWARD VERSUS FEEDBACK</h3></center>
+      <p>The term "feedforward" is sometimes heard in discussions of living control systems. Feedforward means sensing the cause of a disturbance instead of sensing the controlled variable itself, and calculating the amount of output that will just cancel the effect of the disturbance on the controlled variable. This is also known as "compensation." It is basically a non-feedback process, because the actual state of the controlled variable does not affect the action.
+      </p>
+      <p>
+        In this experiment you can choose feedforward or feedback. If you choose feedback, the experiment will be an ordinary compensatory tracking experiment (perhaps you can see where that term came from now). If you choose feedforward, the "cursor" will now actually represent the disturbing quantity itself. You can't see the real cursor. In that case, you will have to estimate how far to move the handle (opposite to the direction of the cursor) so that the invisible cursor would remain near the middle. As you practice over and over, seeing the results in the data plot, you can gradually adjust the amount of feedforward for the best results (this is actually a higher level of feedback). You can judge for yourself which works best: feedback or feedforward. The same disturbance will be used throughout.
+      </p>
+
+      <center>
+        <input type="radio" id="L-radio-ff" name="ff-fb" checked>Feedforward
+        <input type="radio" id="L-radio-fb" name="ff-fb">Feedback
+        <br>
+        <br>
+        <div id="L-instructions" style="width:400px; font-size:12px;">The "cursor" is now really the disturbance. Move the handle as much as necessary, and in the right direction, to counteract the effect of the disturbance on the invisible cursor position.
+        </div>
+        <br>
+        <input type="button" id="L-start" value="Start">
+        <br>
+        <br>
+        <svg style="width:405px; height:70px; background-color:#ddd;" id="L-screen"></svg>
+        <br>
+        <br>
+
+        <svg style="width:500px; height:100px;" id="L-plot"></svg>
+      </center>
+
+      <p>FEEDFORWARD: The stabilization of the (invisible) cursor it shown by its root-mean-square (RMS) deviation from the zero position. For this run it is <span id="L-rms-ff">...</span>. The correlation of the handle position with the invisible cursor position you were trying to stabilize by feedforward was <span id="L-corr-cursor-handle-ff">...</span>. The correlation of handle position with the displayed disturbance was <span id="L-corr-handle-disturbance-ff">...</span>. While this last correlation is high, the cursor is not very well stabilized. For good control, the handle effect must cancel the disturbance much better than this.
+      </p>
+      <p>
+        FEEDBACK: The stabilization of the cursor is shown by its root-mean-square (RMS) deviation from the zero position. For this run it is <span id="L-rms-fb">...</span>. The correlation of the handle position with the cursor position you were trying to stabilize by feedback was <span id="L-corr-cursor-handle-fb">...</span>. The correlation of handle position with the displayed disturbance was <span id="L-corr-handle-disturbance-fb">...</span>. Note that the handle position correlates with the disturbance better when you can't see the disturbance than when you can! Note how small the RMS error in cursor position is, compared with its value in the feedforward case.
+      </p>
+
+      <p>
+
+      </p>
+
+      <p>A final word on feedforward. If you went back and forth between feedforward and feedback a number of times, you got better and better at the feedforward. But suppose you didn't have the feedback experience at all, and never saw the real cursor. How could you have found the right amount of action to go with the disturbance magnitudes? You would just have been guessing.
+      </p>
+      <p>
+        This experiment was done with a constant feedback factor. If the feedback factor changes, as you saw in an earlier experiment, you can still control the cursor very accurately. How well do you think feedforward would work, however, if the feedback factor changed by an unknown amount? In fact this demonstration was done under conditions that give feedforward the best possible chance of working, under repeatable conditions and with plenty of information about the actual effects on the cursor.</p>
+      <p>
+        Feedforward can be adjusted to work (reasonably well) if a higher system can see the effects on the controlled variable and change the relationship between disturbance and action. Then it is just evidence of higher-level feedback. Pure feedforward never works as well as feedback, and in most real circumstances it barely works at all. Feedforward is not an important aspect of most behavior.</p>
+
+      <center>
+        <h3>STEP M: THE REFERENCE LEVEL OF THE CONTROLLED VARIABLE</h3></center>
+      <p>
+        In all the experiments you have done so far, you were told what the task was: it was to keep the cursor between the target marks, or to keep the display in some easily-described condition when other variables were being controlled. No doubt you were docile about this, as you wanted to learn about the phenomenon of control. But only your willingness to do as you were told kept the display in that state. You could just as easily keep it in some other state.
+      </p>
+      <p>For example, you could keep the cursor some small distance above or below the target. You could make the square larger than or smaller than the circle; orient the figure to point left, right, or in any other direction; pick a different shape to maintain for the squiggly figure.</p>
+      <p>The controlled variable is a VARIABLE. You can pick any state of such a variable as the "right" state. That state is called the REFERENCE LEVEL of the controlled variable. It is set by you, the behaving system, not by the outside world. You might now want to return to some of the earlier experiments and see what happens (especially how the plots look) when you use a different reference level for the controlled variable. If you choose a constant reference level, the correlations will be much as before. Yes, you can choose a changing reference level. That's also interesting to do. So give it a try.
+
+      </p>
+
+
+
+
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES * * */
+        //      var disqus_shortname = 'pct-labs';
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        /*    (function () {
+              var dsq = document.createElement('script');
+              dsq.type = 'text/javascript';
+              dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+            */
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+      </noscript>
+  </div>
+
+</body>
+<script src="../common/snap.svg.js"></script>
+<script src="tutorial1.js"></script>
+
+<script>
+  // load common menu
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/common/menu.html', true);
+  xhr.onreadystatechange = function () {
+    if (this.readyState !== 4) return;
+    if (this.status !== 200) return;
+    document.getElementById('menulink').innerHTML = this.responseText;
+  };
+  xhr.send();
+
+  // google analytics
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', 'UA-64080149-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</html>

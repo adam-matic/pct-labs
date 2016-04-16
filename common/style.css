@@ -1,12 +1,20 @@
+body {
+  background-color: lightgray;
+}
+
 #main_frame {
-  width:680px;
-  margin:auto;
+  width: 680px;
+  margin: auto;
+  padding: 50px;
   text-align: justify;
-  top: 60px;
+  top: 50px;
   line-height: 150%;
+  font-family: monospace;
+  background-color: #eee;
+  font-size: 14px;
 }
 
 #code {
-  font-family: monospace;
-  line-height:100%;
+  font-family: sans-serif;
+  line-height: 100%;
 }

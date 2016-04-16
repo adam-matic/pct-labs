@@ -1,6 +1,34 @@
 "use strict";
 
-var fl, feedback_loop, init, animate;
+
+var cs = (function () {
+  var self = this;
+
+  var p = Snap("#main_box");
+
+  p.rect(0, 0, 100, 100).attr({
+    fill: '#fff',
+    stroke: '#000'
+  });
+
+  var dfqi = p.polygon(180, 200, 180, 240, 150, 220);
+  var texts = [[10, 20, 'r'], [100, 200, 'aedadf']];
+
+  texts.forEach(function (t) {
+    p.text(t[0], t[1], t[2]).attr({
+      'font-size': 19
+    });
+  });
+
+})();
+
+window.onload = function () {
+  //run(simulation);
+}
+
+
+
+//var fl, feedback_loop, init, animate;
 
 
 var simulation = {
@@ -42,10 +70,6 @@ var simulation = {
   }
 };
 
-
-window.onload = function () {
-  run(simulation);
-}
 
 function run(sim) {
   var requestAnimFrame, label_names, signal_names, DOM_labels, i, plot_data, counter = 0,
@@ -97,8 +121,7 @@ function run(sim) {
 
     if (sim.disturbance_mode === 'auto') {
       sim.fl.params.d = disturbance_signal.next()
-    }
-    else
+    } else
       sim.fl.params.d = sim.fl.params.d;
 
     sim.fl.next();
