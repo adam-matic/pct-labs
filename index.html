@@ -1,50 +1,97 @@
 <html>
+
 <head>
   <title>PCT Labs</title>
   <link href="/common/style.css" type="text/css" rel="stylesheet">
-</head>
-
-<body>
-  <div id = "menulink"></div>
-  <center><h1><font face = "Helvetica">PCT Labs</font></h1></center>
-  <div id = "main_frame">This website is in construction. <br> <br>
-    It will contain simulations of control systems and animations of important concepts from perceptual control theory (PCT). PCT suggests a unique and interesting way of applying classical control theory to experimental psychology, as well as constructing artificial control systems. It was developed by the late <a href ="https://en.wikipedia.org/wiki/William_T._Powers">William T. Powers.</a> <br>
-    <br>
-    My first project is making JavaScript versions of simulations written in Delphi by Powers and Abbott, and published with the book <a href="http://www.amazon.com/Living-Control-Systems-III-Fact/dp/0964712180">Living Control Systems III</a>. Delphi source code with compiled programs is available at: <a href="http://www.billpct.org">www.billpct.org</a>.
-
-    <br>
-    <p>
-    JavaScript source code si available at <a href = "https://github.com/adam-matic/pct-labs">github</a>.
-    </p>
-
-    <p style="text-align: right;">
-      <i>Adam</i>
-      <br>Contact:<br> <span style="font-family: monospace; text-align: right;">adam<i>.</i>matic<i>@</i>gmail.com</span>
-
-    </p>
-  </div>
-  </body>
-
   <script>
-    var xhr= new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
     xhr.open('GET', '/common/menu.html', true);
-    xhr.onreadystatechange= function() {
-      if (this.readyState!==4) return;
-      if (this.status!==200) return;
-      document.getElementById('menulink').innerHTML= this.responseText;
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) return;
+      if (this.status !== 200) return;
+      document.getElementById('menulink').innerHTML = this.responseText;
     };
     xhr.send();
 
 
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-64080149-1', 'auto');
-  ga('send', 'pageview');
+    ga('create', 'UA-64080149-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
 
-</script>
+<body>
+  <center>
+    <div id="menulink"></div>
+  </center>
+  <center>
+    <h1><font face = "Helvetica">PCT Labs</font></h1></center>
+  <div id="main_frame">This website is in under construction.
+    <br>
+    <br> It will contain simulations of control systems and demonstrations of important concepts from perceptual control theory (PCT). PCT was developed by the late <a href="https://en.wikipedia.org/wiki/William_T._Powers">William T. Powers.</a>
+    <br>
+    <br>
+    <h3>About the tutorials</h3>
+    <br>
+    <p>
+      Bill Powers wrote these tutorials, probably sometime in the late 80's, as an introduction to PCT, or as it was then called 'Cybernetic Control Theory'. You can still download the original programs from <a href="http://www.livingcontrolsystems.com/demos/tutor_pct.html">Living Control Systems Publishing</a> website.
+    </p>
+    <br>
+    <center>
+      <img src="images/screenshot.png" alt="Demo1 screenshot" style="width:500px;">
+    </center>
+    <br>
+    <p>
+      They were written in Pascal and ran in DOS on IBM-PC compatible computers. The text is almost a verbatim copy, and the demos should work just like the old ones. There was also a 'handle' used as an input device - you will se it mentioned in the text. For the web, it is replaced by a slider on the screen.
+      <p>
+      </p>
+      <center>
+        <br>
+        <img src="images/handle.jpg" alt="The handle" style="width:250px;">
+      </center>
+      <br> <a href="/tutorial1/index.html">Tutorial 1</a> and <a href="tutorial2/index.html">Tutorial 2</a> are almost finished (still testing, leave a comment if you see any bugs).
+      <br> Big thanks to Dag Forssell for keeping the old demos and providing the pictures!
+      <br>
+      <br>
+      <h3>About the demos</h3>
+      <br>
+      <p>
+        The demos were written by Bill and Dr. Bruce B. Abbott, published with the book <a href="http://www.amazon.com/Living-Control-Systems-III-Fact/dp/0964712180">Living Control Systems III: The Fact of Control</a>. You can download these from <a href="http://billpct.org/">Bill's website</a>, they run on Windows and they come with source code in Delphi. I'm slowly working on porting them to JavaScript.
+      </p>
+
+      <br>
+      <h3>More about PCT</h3>
+      <br>
+      <p>
+        <br> <a href="http://www.pctweb.org">PCTWeb</a>
+        <br>
+        <br>
+        <a href="http://www.mindreadings.com/">Mindreadings</a>
+        <br>
+        <br><a href="http://www.livingcontrolsystems.com">Living Control Systems</a>
+        <br>
+      </p>
+      <br>
+      <br>
+      <p style="text-align: right;">
+        <i>Adam</i>
+      </p>
+
+  </div>
+</body>
+
+
 
 </html>

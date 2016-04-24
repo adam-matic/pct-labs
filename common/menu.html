@@ -5,11 +5,9 @@
   <style type="text/css">
     #main-menu-div {
       margin-top: 50px;
-      margin-left: 50px;
     }
 
-    ul {
-      width: 680px;
+    #drop-nav {
       list-style-type: none;
       margin: 0;
       padding: 0;
@@ -17,11 +15,11 @@
       background-color: #333;
     }
 
-    li {
+    .menu-li {
       float: left;
     }
 
-    li a {
+    .menu-li a {
       display: block;
       color: white;
       text-align: center;
@@ -30,16 +28,17 @@
       text-decoration: none;
     }
 
-    li a:hover {
+    .menu-li a:hover {
       background: #622;
     }
   </style>
 
   <div id="main-menu-div">
     <ul id="drop-nav">
-      <li><a href="/index.html">Home</a></li>
-      <li><a href="/demos/index.html">Demos</a></li>
-      <li><a href="/tutorial1/index.html">Tutorial 1</a></li>
+      <li class="menu-li"><a href="/index.html">Home</a></li>
+      <li class="menu-li"><a href="/tutorial1/index.html">Tutorial 1</a></li>
+      <li class="menu-li"><a href="/tutorial2/index.html">Tutorial 2</a></li>
+      <li class="menu-li"><a href="/demos/index.html">Demos</a></li>
     </ul>
   </div>
 

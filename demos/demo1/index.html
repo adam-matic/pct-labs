@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Choose Control</title>
+
+  <link rel="stylesheet" type="text/css" href="/common/style.css">
+  <script src="/common/ga.menu.js"></script>
+
+</head>
+
+<body>
+  <center>
+    <div id="menulink"></div>
+  </center>
+  <center>
+    <h1><font face = "Helvetica">DEMO 1: CHOOSE CONTROL</font></h1>
+  </center>
+
+  <div id="main_frame">
+    <p>
+      The object below is continually changing in three of its characteristics:</p>
+    <ul stlye="list-style-type:circle">
+      <li>Position (left/right), </li>
+      <li>Axis Orientation (up/down), and </li>
+      <li>Shape (wide/thin).</li>
+    </ul>
+    <center>
+      <div id="container" style="background-color:#000; width:600px; height:150px;">
+      </div>
+
+      <br>
+      <input type="range" id="slider1" style="width:500px;">
+      <br>
+
+      <input type="button" id='start-button' value="Start 1 minute run">
+      <span id="dots"></span>
+      <br>
+    </center>
+
+    <p>
+      The slider control below of the object display area affects all three characteristics simultaneously when you drag the slider left or right (try it!). You can use the slider to counteract the changes taking place to any one of the three characteristics. Choose one of the three characteristics and practice using the mouse to keep that characteristic from varying. When you are ready to record a run, click the Start button.</p>
+
+    <center>
+
+      <p id="Analysis"></p>
+      <br>
+      <svg id="Plot1" style="width:500px;"></svg>
+      <svg id="Plot2" style="width:500px;"></svg>
+      <svg id="Plot3" style="width:500px;"></svg>
+
+    </center>
+  </div>
+</body>
+<script src="/js/snap.svg.js"></script>
+<script src="/js/stat.js"></script>
+<script src="/js/lib.js"></script>
+<script src="/js/three.js"></script>
+<script src="/js/Detector.js"></script>
+<script src="demo1.js"></script>
+
+
+</html>

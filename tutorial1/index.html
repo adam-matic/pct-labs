@@ -2,17 +2,45 @@
 <html>
 
 <head>
+  <script>
+    // google analytics
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-64080149-1', 'auto');
+    ga('send', 'pageview');
+  </script>
   <link rel="stylesheet" type="text/css" href="/common/style.css">
 
-  <title>Tutorial 1</title>
+  <title>PCT Tutorial 1</title>
 </head>
 
 <body>
   <center>
     <div id="menulink"></div>
   </center>
+  <script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/common/menu.html', true);
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) return;
+      if (this.status !== 200) return;
+      document.getElementById('menulink').innerHTML = this.responseText;
+    };
+    xhr.send();
+  </script>
+
   <center>
-    <h1><font face = "Helvetica">INTRODUCTION TO<br>CYBERNETIC CONTROL THEORY</font></h1>
+    <h1><font face = "Helvetica">INTRODUCTION TO<br>PERCEPTUAL CONTROL THEORY<br> (under construction) </font></h1>
     <h2><font face = "Helvetica">Part 1: The phenomenon of control</font></h2>
   </center>
 
@@ -77,7 +105,7 @@
       <h3> STEP F: COMPENSATORY TRACKING</h3></center>
 
     <p>Now you are ready to try the simplest kind of control experiment, called "compensatory tracking." That name really comes from a wrong model of how this works, but for tradition's sake we keep it. This isn't compensation: it's control. </p>
-    <p>You will see two stationary bars now, with the cursor moving up and down between them. The object is simple: keep the cursor bar exactly between the target bars for 30 seconds. You will have about 5 seconds to gain control; then data recording will start. At the end of the 30 seconds, the handle, cursor, and disturbance numbers will be plotted, showing you what you did. The x-axis of the plot is time.
+    <p>You will see two stationary bars now, with the cursor moving left and right between them. The object is simple: keep the cursor bar exactly between the target bars for 30 seconds. You will have about 5 seconds to gain control; then data recording will start. At the end of the 30 seconds, the handle, cursor, and disturbance numbers will be plotted, showing you what you did. The x-axis of the plot is time.
     </p>
     <p>
       HOLD CURSOR BETWEEN TARGET BARS.
@@ -146,10 +174,13 @@
       <br>
       <br>
       <span id="H-instructions"></span>
-      <input type="button" id="H-start-button" value="Start">
-      <br>
+      <input type="button" id="H-play-reference" value="Play refrence pitch" style="visibility:hidden;">
       <br>
       <center>
+        <input type="button" id="H-start-button" value="Start">
+        <br>
+        <br>
+
         <svg style="width:405px; height:150px;  background-color:#ddd;" id="H-screen"></svg>
         <input type="range" id="H-handle-slider" style="width:400px;">
         <br>
@@ -172,7 +203,7 @@
     </p>
     <p>
       In this demonstration, the control handle affects three cursors, all in exactly the same way. Each cursor is subject to a different pattern of disturbance. You will pick one cursor to hold steady. At the end of a short experimental run, you will see plots that show how handle movement, disturbance, and cursor movement were related for each cursor. (Three disturbances are selected at random).
-      <br> HOLD ONE OF THE CURSORS EXACTLY LEVEL WITH THE OUTER TWO (TARGET) LINES
+      <br> HOLD ONE OF THE CURSORS EXACTLY ALIGNED WITH THE OUTER TWO (TARGET) LINES
     </p>
 
     <center>
@@ -195,7 +226,7 @@
     <p>
       DETECTING THE INTENDED EFFECT</p>
     <p>
-      The cursor that varies the least is the one you were controlling. The computer finds it by looking for the lowest correlation of handle position & cursor position.
+      The cursor that varies the least is the one you were controlling. The computer finds it by looking for the lowest correlation of handle position &amp; cursor position.
     </p>
 
     <center>
@@ -207,10 +238,10 @@
 
         Please enter a feedback factor between 50 and 200. If you enter 100, the factor will be the same as it has been in all the previous demonstrations. A factor of 50 makes the cursor move half as much as before, a factor of 200 makes it move twice as much. If you type a number outside the range of 50 to 200, it will be ignored.
       </p>
-      <p> HOLD THE CURSOR EXACTLY LEVEL WITH THE OUTER TWO (TARGET) LINES
+      <p> HOLD THE CURSOR EXACTLY ALIGNED WITH THE OUTER TWO (TARGET) LINES
       </p>
       Feedback factor:
-      <input id="J-feedback-factor" value='100' size='3' style='text-align:right'>
+      <input id="J-feedback-factor" value='100' size='3' style='text-align:right'>%
       <center>
         <input type="button" id="J-start" value="START">
         <br>
@@ -232,7 +263,7 @@
       <p>In either stimulus-response theory or cognitive theory, behavior is the final product of the organism. If action produces a regular effect, it is assumed that the world between the action and the effect must have remained constant. We will now look at an action that produces a regular effect by employing a link that is subject to two disturbances between the action and the effect. You will see that it is the final effect, not the action, that remains constant. William James said 100 years ago that living systems alone achieve regular ends by variable means. You will now see what he was talking about.
       </p>
       <p>
-        In this experiment, your control handle moves a bar of light as usual. The bar marks the end of a "string" that passes under one pulley, up and over another pulley, and finally back down to a free end. Your task is to keep the free end aligned with the stationary mark that you will see. When you start the run, the pulleys begin to wander up and down at random, adding their effects to the position of the string's free end. You will see that the task is easy if you ignore the pulleys and just watch the free end. If you try to do it by watching the pulleys and figuring how how much to move, it will be almost impossible. The final effect, not the action, is controlled.
+        In this experiment, your control handle moves a vertical bar as usual. The bar marks the end of a "string" that passes over one pulley, up and over another pulley, and finally up to a free end. Your task is to keep the free end aligned with the stationary mark that you will see. When you start the run, the pulleys begin to wander left and right at random, adding their effects to the position of the string's free end. You will see that the task is easy if you ignore the pulleys and just watch the free end. If you try to do it by watching the pulleys and figuring how how much to move, it will be almost impossible. The final effect, not the action, is controlled.
       </p>
 
       <p> HOLD THE FREE END OF THE STRING EVEN WITH THE STATIONARY MARK
@@ -261,8 +292,9 @@
       </p>
 
       <center>
-        <input type="radio" id="L-radio-ff" name="ff-fb" checked>Feedforward
-        <input type="radio" id="L-radio-fb" name="ff-fb">Feedback
+        <input type="radio" id="L-radio-fb" name="ff-fb" checked>Feedback
+        <input type="radio" id="L-radio-ff" name="ff-fb">Feedforward
+
         <br>
         <br>
         <div id="L-instructions" style="width:400px; font-size:12px;">The "cursor" is now really the disturbance. Move the handle as much as necessary, and in the right direction, to counteract the effect of the disturbance on the invisible cursor position.
@@ -271,8 +303,10 @@
         <input type="button" id="L-start" value="Start">
         <br>
         <br>
-        <svg style="width:405px; height:70px; background-color:#ddd;" id="L-screen"></svg>
+        <svg style="width:400px; height:70px; background-color:#ddd;" id="L-screen"></svg>
         <br>
+        <input type="range" id="L-handle-slider" style="width:300px;">
+
         <br>
 
         <svg style="width:500px; height:100px;" id="L-plot"></svg>
@@ -300,63 +334,48 @@
       <p>
         In all the experiments you have done so far, you were told what the task was: it was to keep the cursor between the target marks, or to keep the display in some easily-described condition when other variables were being controlled. No doubt you were docile about this, as you wanted to learn about the phenomenon of control. But only your willingness to do as you were told kept the display in that state. You could just as easily keep it in some other state.
       </p>
-      <p>For example, you could keep the cursor some small distance above or below the target. You could make the square larger than or smaller than the circle; orient the figure to point left, right, or in any other direction; pick a different shape to maintain for the squiggly figure.</p>
+      <p>For example, you could keep the cursor some small distance left or right of the target. You could make the square larger than or smaller than the circle; orient the figure to point left, right, or in any other direction; pick a different shape to maintain for the squiggly figure.</p>
       <p>The controlled variable is a VARIABLE. You can pick any state of such a variable as the "right" state. That state is called the REFERENCE LEVEL of the controlled variable. It is set by you, the behaving system, not by the outside world. You might now want to return to some of the earlier experiments and see what happens (especially how the plots look) when you use a different reference level for the controlled variable. If you choose a constant reference level, the correlations will be much as before. Yes, you can choose a changing reference level. That's also interesting to do. So give it a try.
 
       </p>
 
+
+      <br>
+      <br>
+      <p>Continue with <a href="/tutorial2/index.html">Part 2</a> of the tutorial.
+      </p>
+      <br>
+      <br>
+      <br>
+      <hr>
+      <p style="text-align:right;">Text and concept by W.T. Powers, circa 1989
+        <br>Original programs for DOS: <a href="http://www.livingcontrolsystems.com/demos/tutor_pct.html">Demo1</a>
+      </p>
 
 
 
       <div id="disqus_thread"></div>
       <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES * * */
-        //      var disqus_shortname = 'pct-labs';
+        var disqus_shortname = 'pct-labs';
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
-        /*    (function () {
-              var dsq = document.createElement('script');
-              dsq.type = 'text/javascript';
-              dsq.async = true;
-              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-            */
+        (function () {
+          var dsq = document.createElement('script');
+          dsq.type = 'text/javascript';
+          dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
       </script>
       <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
       </noscript>
   </div>
 
 </body>
-<script src="../common/snap.svg.js"></script>
+<script src="../js/snap.svg.js"></script>
+<script src="../js/lib.js"></script>
+<script src="../js/stat.js"></script>
 <script src="tutorial1.js"></script>
-
-<script>
-  // load common menu
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/common/menu.html', true);
-  xhr.onreadystatechange = function () {
-    if (this.readyState !== 4) return;
-    if (this.status !== 200) return;
-    document.getElementById('menulink').innerHTML = this.responseText;
-  };
-  xhr.send();
-
-  // google analytics
-  (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-  ga('create', 'UA-64080149-1', 'auto');
-  ga('send', 'pageview');
-</script>
 
 </html>

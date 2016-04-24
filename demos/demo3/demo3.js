@@ -175,7 +175,6 @@ function random_wave (data_length, difficulty, range) {
 		data[i] += amplitude * Math.cos(temp * i + phase);
 	}
   }
-
   data = scale_to_range(data, -range/2, range/2);
 
   return data;

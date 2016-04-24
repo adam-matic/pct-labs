@@ -2,8 +2,12 @@ body {
   background-color: lightgray;
 }
 
-#main_frame {
+#menulink {
   width: 680px;
+}
+
+#main_frame {
+  width: 600px;
   margin: auto;
   padding: 50px;
   text-align: justify;

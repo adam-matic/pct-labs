@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script>
+    // google analytics
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-64080149-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <link rel="stylesheet" type="text/css" href="/common/style.css">
+
+  <title>PCT Tutorial 2</title>
+</head>
+
+<body>
+  <center>
+    <div id="menulink"></div>
+  </center>
+  <script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/common/menu.html', true);
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) return;
+      if (this.status !== 200) return;
+      document.getElementById('menulink').innerHTML = this.responseText;
+    };
+    xhr.send();
+  </script>
+
+  <center>
+    <h1><font face = "Helvetica">INTRODUCTION TO<br>PERCEPTUAL CONTROL THEORY<br> (under construction) </font></h1>
+    <h2><font face = "Helvetica">Part 2: Modeling control behavior</font></h2>
+  </center>
+
+  <div id="main_frame">
+    <center>
+      <h3>Introduction</h3></center>
+
+    <p>The secret of constructing behavioral models is to think of everything as an amount rather than a thing. We deal with variables, not objects or acts. In this series we will model compensatory tracking, which as you know from Part 1 involves moving a handle that affects a cursor; the cursor is also subject to an independent random disturbance. The first step is to see the handle and cursor not as objects but as variables. All that matters about either one is represented by a number. A number represents handle position, a number represents cursor position. The physical environment (the computer) makes the cursor number depend on both the handle number and the disturbance number.
+    </p>
+    <p>
+      The links between handle and cursor or disturbance and cursor are established by properties of the environment, which we will show in boxes. We can give the boxes any properties we like. Of course we choose properties that will make the model cursor depend on handle position and disturbance as realistically as possible. The next step is concerned with setting up the environment model.
+    </p>
+    <center>
+      <h3>Modeling the environment</h3></center>
+    <p>
+      In the following series we will build up the model of a control system step by step. The first step is to model the environment, which consists of the control handle, the cursor seen on the screen, and the disturbance (which acts invisibly inside the computer).</p>
+    <p> The handle position is represented by h, a variable number. The value of h is multiplied by a "feedback constant" Kf. The product h * Kf represents the contribution of handle position to the cursor position.</p>
+    <p>
+      The magnitude of disturbance is represented by d, another variable number. The value of d is multiplied by a "disturbance constant" Kd. The product d * Kd represents the contribution of the disturbance to the cursor position.
+    </p>
+    <p>
+      Finally, cursor position c is found by summing the effects of the handle via Kf and the disturbance via Kd, so that c = h * Kf + d * Kd.
+    </p>
+    <p>
+      You can use the control handle to keep the cursor between two target marks, a standard compensatory tracking experiment. A "strip chart" graph shows handle and cursor recordings. You can alter Kf and Kd. Experiment until you see and feel just how the disturbance and handle effects add up to position the cursor. Generally, do the tracking for 15-20 seconds, then click the Pause button to freeze the action so you can look at the numbers. You can always alter the constants. Click and hold the constant with the mouse and change it by dragging the number left to decrease it, or right to increase it.
+    </p>
+    <center> <b>Kd</b>, Environmental Disturbance Constant</center>
+
+    <p>
+      The "disturbance constant" Kd determines how much effect a disturbance will have on the cursor. Step Kf down to 0 by dragging the number in the box to see the disturbance's effect by itself (the handle can move as usual but has no effect on the cursor). Change Kd to see how different values of Kd give the same disturbance different amounts of effect on the cursor.
+    </p>
+    <center><b>Kf</b>, Environmental Feedback Constant</center>
+    <p>
+      The "feedback constant" Kf determines how much effect a given handle position will have on the cursor. Set the disturbance factor Kd to zero to see how changing Kf alters the handle's effect on the cursor. With a large value of Kf (3.00), a given change in cursor position can be produced with a small handle movement. Reducing Kf to a small number (like 0.5) means that a larger handle movement is needed to give the same effect.
+    </p>
+
+    <center>
+      <br>
+      <svg style="width:400px; height:170px; background-color:#ddd;" id="B-model"></svg>
+      <br>
+      <svg style="width:400px; height:70px; background-color:#ddd;" id="B-screen"></svg>
+      <br>
+
+      <input type="range" id="B-handle-slider" style="width:400px;">
+      <br>
+      <input type="button" id="B-start" value="Start">
+      <br>
+      <br>
+      <svg style="width:520px; height:100px;" id="B-plot"></svg>
+
+
+    </center>
+    <center>
+      <h3>The perceptual or input function</h3></center>
+    <p>
+      As you watch the cursor, you get a continual sense of its position. This sense is modeled as a "perceptual signal", generated by a combination of a visual image and neural computations that create a signal representing the state of the variable. As the cursor moves up, the signal increases; as it moves down, the signal decreases. Here we allow the perceptual signal to go negative when the cursor is left of the target. In a real nervous system there would have to be a "left" signal and a "right" signal because the magnitude of neural signals (measured in impulses per second) can't ever be less than zero.
+    </p>
+    <p>
+      Modeling perception is easy because we don't know any of the details of how sensing position works. We simply draw a box called the "input function" and declare that its input is the actual state of the cursor, and its output is a signal ("p") whose magnitude is the input times some input constant, Ki.
+    </p>
+    <p>
+      We will now begin using more general labels: "qi" for "input quantity" instead of "cursor", and "qo" for "output quantity" instead of "handle". We will keep "d" for disturbance just to prove that one needn't be compulsive about these labels (we could say "qd" -- disturbing quantity). A dashed line now separates the behaving system from its environment. The magnitude of the perceptual signal is now p = qi * Ki.
+    </p>
+    <center><b>Ki</b>, Input Constant</center>
+    <p>
+      The "input constant" Ki determines the scaling factor that relates physical units (cursor position) to nervous-system units or NSU, related to frequency of impulses. A factor of 1.00 means that one physical unit of input creates one NSU of perceptual signal. Try different values of Ki by dragging it left or right.
+    </p>
+    <center>
+      <br>
+
+      <svg style="width:400px; height:280px; background-color:#ddd;" id="C-model"></svg>
+      <br>
+      <svg style="width:400px; height:70px; background-color:#ddd;" id="C-screen"></svg>
+      <br>
+      <input type="range" id="C-handle-slider" style="width:400px;">
+      <br>
+      <input type="button" id="C-start" value="Start">
+      <br>
+      <br>
+      <svg style="width:520px; height:100px;" id="C-plot"></svg>
+    </center>
+    <center>
+      <h3>The comparator and reference signal</h3></center>
+    <p>
+      Control behavior is based on the difference between the perceived state of the input quantity and a "reference" state -- the state intended. Just seeing if the cursor is left or right from the target is not enough. You have to know how much right or left you want it to be. Normal tracking implies that there should be no "rightness" or "leftness", but you can easily decide to keep the cursor any amount left or right of the target. In the model there is a "comparator" that receives the perceptual signal and a new signal, the "reference signal." The reference signal specifies the desired level of the perceptual signal. The comparator creates an error signal that tells how far the reference signal is to the right or to the left of the perceptual signal: the magnitude of the error signal is just the magnitude of the reference signal minus the magnitude of the perceptual signal.
+    </p>
+    <p>
+      Using the mouse, you can increase or decrease the reference signal in the range -200 to +200. Watch the effects on the error signal as you move the handle. You can also set Kf to zero, so the handle has no effect, and let the disturbance variations affect the model while you experiment.
+    </p>
+
+    <center>Comparator: Reference &amp; Error Signals</center>
+
+    <p>The error signal (<b>e</b>) is affected equally by the reference signal (<b>r</b>) and by the perceptual signal (<b>p</b>). The error signal becomes zero only when reference and perceptual signals match. Zero error is defined by the reference signal. A POSITIVE error signal says the handle should move RIGHT. You can change the reference signal; watch the effect on the error signal.
+    </p>
+
+    <center>
+      <br>
+
+      <svg style="width:400px; height:280px; background-color:#ddd;" id="D-model"></svg>
+      <br>
+      <svg style="width:400px; height:70px; background-color:#ddd;" id="D-screen"></svg>
+      <br>
+      <input type="range" id="D-handle-slider" style="width:400px;">
+      <br>
+      <input type="button" id="D-start" value="Start">
+      <br>
+      <br>
+      <svg style="width:520px; height:100px;" id="D-plot"></svg>
+    </center>
+
+
+    <center>
+      <h3>The Output Function</h3></center>
+    <p>
+      We have an error signal that shows, by its magnitude and sign, how much and in what direction the cursor needs to move to make the perceptual signal match the reference signal. Now we add the last function, an "output function" that converts the error signal into action.
+    </p>
+    <center><b>Ko</b>, Output Constant</center>
+
+    <p>
+      This output function makes the handle move to a position that is some constant times the error signal. The constant is the "output constant" or Ko, which you can adjust as before. For reasons that will be explained later, the output function also contains a slowing factor, which you will see as a lag in the output when the factor Ko is large (10 or so).
+    </p>
+    <p>
+      In this step we will NOT close the loop. The output will just be shown as a number, which you can compare with the handle number (qo). After you have understood this final part of the control system, you can go to the next step to see what happens when the output actually substitutes for your own handle movements, making this into a working model.
+    </p>
+
+    <center>The Output Function</center>
+    <p>
+      The feedback factor is now set to zero so the handle has no effect. Only the disturbance affects the perceptual, error, and output signals. Watch the disturbance and change Ko until you think the output is changing the way it should to cancel the effects of the disturbance. You are not likely to guess right unless you know control theory! You can still change all the constants.
+    </p>
+
+    <center>
+      <br>
+
+      <svg style="width:400px; height:280px; background-color:#ddd;" id="E-model"></svg>
+      <br>
+      <svg style="width:400px; height:70px; background-color:#ddd;" id="E-screen"></svg>
+      <br>
+      <input type="range" id="E-handle-slider" style="width:400px;">
+      <br>
+      <input type="button" id="E-start" value="Start">
+      <br>
+      <br>
+      <svg style="width:520px; height:100px;" id="E-plot"></svg>
+    </center>
+
+    <center>
+      <h3>Closing the Feedback Loop</h3></center>
+    <p>
+      The situation is now just what it was in the last step, except that the 'Close loop' button is enabled. Pressing 'Close loop' button makes the model's output quantity qo determine the handle position, so your handle movements now have no effect. (Pressing it again allows you to control the model's handle position again)
+    </p>
+    <p>
+      The model is now controlling the cursor. You may have set Ko, in the last step, so the model's output was equal and opposite to the disturbance (with the handle ineffective, Kf = 0). That would require Ko to be 1.00. Now you will find that this gives very poor control. Watch the error signal with Kd = 1.00, Ki = 1.00, and Kf = 1.00.
+    </p>
+    <p>
+      For the model to keep the error small, you will have to increase Ko to at least 10. It can be set as high as 50. The larger Ko is, the better the control. With Ko set between 5 and 20, the model will control about as well as you do. Now you can experiment with all the constants to see their effects on the way the model controls. Be sure to check the effects of varying the reference signal -- it determines where the cursor will be maintained.
+    </p>
+    <p>
+      Use the 'Close loop' button to open and close the loop. With the loop open, you control the handle and the model just produces an output number. With the loop closed, the handle position IS the system's output number, qo. To keep the error signal small, you have to make Ko much larger than 1: the open-loop output changes must be much larger than the handle movements.
+    </p>
+
+    <center>
+      <br>
+
+      <svg style="width:400px; height:280px; background-color:#ddd;" id="F-model"></svg>
+      <br>
+      <svg style="width:400px; height:70px; background-color:#ddd;" id="F-screen"></svg>
+      <br>
+      <input type="range" id="F-handle-slider" style="width:400px;">
+      <br>
+      <input type="button" id="F-start" value="Start">
+      <input type="button" id="F-close-loop" value="Close loop">
+      <br>
+      <br>
+      <svg style="width:520px; height:100px;" id="F-plot"></svg>
+    </center>
+
+    <center>
+      <h3>A higher-level control system</h3></center>
+    <p>
+      The control-system model, with the loop closed, keeps the perceptual signal nearly matching the reference signal. With the reference signal set to zero, this means it keeps the cursor in line with the target marks, which are set to the zero (screen-center) position. This system, however, is controlling the absolute cursor position on the screen, not its position relative to the target. It isn't perceiving the target position.
+    </p>
+    <p>
+      You, however, can see that relationship. You can decide, when you are controlling, to keep the cursor some distance above or below the target. To do this, you pick an intended position, and use your own lower-level control systems to bring the target to the intended position. You can make this model act like your own lower level control systems -- you can specify where you want it to hold the cursor. You do this by altering the reference signal for the model. You don't have to watch the reference signal--just the relationship between cursor and target. Now you are acting like a higher level control system, controlling a RELATIONSHIP by varying the reference signal for a lower-order system that controls only POSITION. Notice that the position control system automatically cancels most of the disturbance effect.
+    </p>
+    <p>
+      Try changing the reference signal. The control system model will keep the perceptual signal matching the reference signal. To change the perceptual signal, the system has to move the cursor. The result is that the cursor is kept in a position, called its reference level, determined by the setting of the reference signal. The control sysstem automatically resists the disturbance.
+    </p>
+    <center>
+      <br>
+      <svg style="width:400px; height:280px; background-color:#ddd;" id="H-model"></svg>
+      <br>
+      <svg style="width:400px; height:70px; background-color:#ddd;" id="H-screen"></svg>
+      <br>
+      <input type="range" id="H-handle-slider" style="width:400px;">
+      <br>
+
+      <input type="button" id="H-start" value="Start">
+
+      <br>
+      <svg style="width:520px; height:100px;" id="H-plot"></svg>
+    </center>
+
+    <center>
+      <h3>The Equations of Control</h3></center>
+    <p>
+      In all traditional models of behavior, only a single equation is needed to capture the relationship proposed to exist between inputs and outputs: however written, it says that output is a function of input, or in our terms, qo = f(qi).
+    </p>
+    <p>
+      The control concept adds another statement: input is a function of both output and independent disturbances: qi = g(qo) + h(d). Now there are two equations. They must both hold true all of the time. The final relationship between input and output is not correctly described by either equation alone.
+    </p>
+    <p>
+      The traditional role of "stimulus" is played by the disturbance, not by the input quantity qi. The real input, qi, is jointly determined by the disturbance, d, and by the behavioral output, qo. The true independent variables are the reference signal, r, and the disturbance, d.</p>
+    <p>
+      Only certain values of qi and qo will satisfy both equations at once. Both qo and qi are dependent variables: both the input and the output come to values determined by the whole feedback relationship.</p>
+    <p>
+      From the block diagram built up during Part 2 we can read off four equations that are as important for the life sciences as Maxwell's equations of electromagnetism were for physics. In the next frame you will see how these equations interact to give a picture of the behavior of a control process.
+    </p>
+
+    From the diagram above we can write four equations:
+    <table>
+      <tr>
+        <td>1. Environment:</td>
+        <td>qi = Kf * qo + Kd * d</td>
+      </tr>
+      <tr>
+        <td>2. Perception:</td>
+        <td>p = Ki * qi</td>
+      </tr>
+      <tr>
+        <td>3. Comparison:</td>
+        <td> e = r - p</td>
+        <tr>
+          <td>4. Action:</td>
+          <td>qo = Ko * e</td>
+        </tr>
+    </table>
+    <br>
+    <p>
+      Now you can set the values of the two independent variables, r and d, and the values of the constants Kf, Kd, Ki, and Ko. Each of the equations remains true at all times, as you can verify by checking each equation manually. The values of qi and qo agree with the solutions of the four equations solved as a simultaneous system (solutions shown below). The dynamics are still hidden; they are explained in later frames.
+    </p>
+    <center>
+      <input type="button" id="G-start" value="Start">
+      <br>
+      <br>
+      <svg style="width:370px; height:250px;" id="G-equations"></svg>
+    </center>
+
+    <p>
+      Solutions:
+      <br> qi = [(KfKo)r + (Kd)d]/[1 + KiKoKf]
+      <br> qo = [(Ko)r - (KoKiKd)d]/[1 + KiKoKf]
+    </p>
+
+    <center>
+      <h3>Dynamics: The Slowing Factor</h3></center>
+    <p>
+      Real systems can't change their output actions instantly from one value to another. To this point, that fact about physical variables and physical time has been handled in the background. Whenever a jump in the output quantity was computed, the actual change was allowed to go only a fraction of the way toward the new value on any one computing cycle (once around the four equations). This fraction is 1/S, where S is called the "slowing factor." If the present value of output is 10 and the computation makes the next value 30, the computed jump is 20 units of output. With a slowing factor of 10, we would multiply the jump by 1/10, and so alter the output only 2 units instead of 20. You will see how this works in the next frame.
+    </p>
+    <p>
+      The nature of digital computations puts a lower limit on the number S. This limit is related to the "loop gain", the product Ki * Ko * Kf. If S is set to 1 + Ki * Ko * Kf, the digital computation reaches the correct final value in one jump. We have been using that optimum slowing factor. If S is 1/2 that amount or less, the computations will start oscillating and the results will no longer mean anything (you might even have to start the program over!). In simulations of real systems, the best slowing factor is considerably larger than this computer-imposed limit, so the problem doesn't arise. In the next frame, however, you can set the slowing factor to any value greater than 0.001, and see what happens. There's no closed loop to cause a problem.
+    </p>
+    <p>
+      In this example, all factors are adjustable. Change the value of the output constant Ko, the error signal e, or the slowing factor S. Press "Step" to compute the value of the expression below over and over. Eventually you will find that the output quantity qo comes exactly to the value Ko * e. How fast it does this depends on the slowing factor S (always positive). When S = 1 there is no slowing. qo is limited to +/- 10,000.
+    </p>
+    <p>
+      We are computing this expression (qo starts at zero):
+      <center>
+        <svg style="width:420px; height:50px;" id="H-equations"></svg>
+        <input type="button" id="H-step" value="Step">
+      </center>
+      <br>
+    </p>
+
+    <p>
+      When the slowing factor is used in simulations of a control system, there is a lower limit on the value of S. If S is less than this limit, the digital nature of the computations will cause a spurious runaway condition that would not appear in an analogue computation or in a normal control system. In the next frame, S is NOT forced to stay above this minimum value -- that's up to you. It is, however, made to stay larger than 0.001, to prevent dividing by 0. If the program runs away, press the 'Reset' button.
+    </p>
+    <center>
+      <h3>The Equations of Control</h3></center>
+    <p>
+      This demonstration works as before. Also, you can now change the slowing factor rather than having it computed automatically. The loop gain and the optimum slowing factor are shown below. The fourth equation now shows how the slowing factor is applied to calculate a new output quantity. S = 1 means no slowing.
+    </p>
+    <p>
+      <center>
+        <br>
+        <input type="button" id="I-start" value="Start">
+        <input type="button" id="I-step" value="Step">
+        <input type="button" id="I-reset" value="Reset">
+        <br>
+        <br>
+        <svg style="width:420px; height:250px;" id="I-equations"></svg>
+      </center>
+      <br> Loop Gain = <span id="I-loop-gain"> ... </span>
+      <br> Optimum Slowing Factor = <span id="I-slowing-factor"> ... </span>
+    </p>
+    <center>
+      <h3>Matching the Model to Real Behavior</h3></center>
+    <p>
+      We will now set up a standard compensatory tracking experiment. You will go through a one-minute run while 3600 data points are taken (60 to 70 seconds). Then the same model we have been using will be run with the same disturbance. To "run" the model means feeding it values of the same disturbance, one after the other, and doing one cycle of the computations each time, saving the results. The model's behavior and the real behavior are then plotted.
+    </p>
+    <p>
+      You can adjust the reference signal r, the output constant Ko, and the slowing factor S for the model. The difference between model and real handle positions is plotted in the middle, with the root-mean-square (RMS) of the difference.
+    </p>
+    <p> Also shown is the ratio Ko/S, which is the "integration factor" valid for large values of S. When S is a large number, the output function acts almost like a pure time integrator, summing the values of error signal. You will find that the best fit of model to real behavior occurs when Ko is greater than 100, and S is about 5 to 7 times as large as Ko. The most important number is Ko/S.
+    </p>
+    <p>
+      The numbers you end up with are inferences about the properties of the real person, under the assumption that the person is organized as the model is organized. You can judge for yourself whether this model is adequate.
+    </p>
+    Select the type of variable you want to control:
+    <input type="radio" name="J-type" id="J-cursor" checked>Cursor
+    <input type="radio" name="J-type" id="J-sound">Sound
+    <input type="radio" name="J-type" id="J-number">Number
+    <br> Select the degree of difficulty:
+    <input type="radio" name="J-dif" id="J-one" checked>1
+    <input type="radio" name="J-dif" id="J-two">2
+    <input type="radio" name="J-dif" id="J-three">3
+    <input type="radio" name="J-dif" id="J-four">4
+    <br>
+    <br>
+    <span id="J-instructions">
+        This is a compensatory tracking experiment. Hold the cursor between the two target bars. The run lasts about one minute.
+      </span>
+    <input type="button" id="J-play-reference" value="Play refrence pitch" style="visibility:hidden;">
+    <br>
+    <br>
+    <br>
+    <center>
+      <input type="button" id="J-start-button" value="Start 1 minute run">
+      <br>
+      <br>
+      <svg style="width:400px; height:70px;  background-color:#ddd;" id="J-screen"></svg>
+      <br>
+      <input type="range" id="J-handle-slider" style="width:400px;">
+      <br>
+      <br>
+      <br>
+      <svg style="width:500px; height:100px;" id="J-user-plot"></svg>
+      <br>
+      <br> Adjust the parameters of the model to get a better fit.
+      <br>
+      <svg style="width:200px; height:50px;" id="J-model-adjust"></svg>
+      <p style='font-size:12px; text-align:left;'>Integration factor, Ko/S: <span id="J-integration-factor"></span>
+        <br> RMS difference: <span id="J-rms-difference"></span>
+        <br> Handle vs model-handle correlation: <span id="J-correlation"></span>
+      </p>
+      <br>
+      <svg style="width:500px; height:100px;" id="J-difference-plot"></svg>
+      <svg style="width:500px; height:100px;" id="J-model-plot"></svg>
+
+
+    </center>
+    <center>
+      <h3>Matching the Model to Real Behavior, Revised Model</h3></center>
+    <p>
+      This time, after the experimental tracking run (from the previous step), the model will include a sensory lag adjustment, as well as the adjustments you've already seen. This is accomplished by using a slowing factor just as in the output function. You will find that with the right amount of sensory slowing factor (<b>ss</b>), somewhere around 4 to 6, you can get the model to fit the data even better than before -- more of the rapid changes are imitated (although still not all of them).
+    </p>
+    <p>
+      When you set the sensory slowing factor to 1.0 (as low as it will go), there is no sensory slowing. So you can compare the best parameter adjustments with and without sensory slowing.
+    </p>
+    <p>
+      A sensory slowing factor of 5 means that after a sudden change in cursor position, the perception of cursor position changes by 20 per cent in each 1/30 second interval -- 20 per cent of the remaining distance to the final value. This corresponds to a sensory time constant of about 0.15 seconds, a reasonable value for visual perception.
+    </p>
+    <p>
+      Below are show calculation of the correlation between the model's and the person's handle position, and you can see how well this model matches behavior.
+    </p>
+    <center>
+      <br>
+      <svg style="width:300px; height:50px;" id="K-model-adjust"></svg>
+      <p style='font-size:12px; text-align:left;'>Integration factor, Ko/S: <span id="K-integration-factor"></span>
+        <br> RMS difference: <span id="K-rms-difference"></span>
+        <br> Handle vs model-handle correlation: <span id="K-correlation"></span>
+      </p>
+
+      <svg style="width:500px; height:100px;" id="K-difference-plot"></svg>
+      <svg style="width:500px; height:100px;" id="K-model-plot"></svg>
+    </center>
+    <br>
+    <br>
+    <hr>
+    <p style="text-align:right;">Text and concept by W.T. Powers, circa 1989
+      <br>Original programs for DOS: <a href="http://www.livingcontrolsystems.com/demos/tutor_pct.html">Demo2</a>
+    </p>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES * * */
+      var disqus_shortname = 'pct-labs';
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+    </noscript>
+  </div>
+
+</body>
+<script src="../js/snap.svg.js"></script>
+<script src="../js/lib.js"></script>
+<script src="../js/stat.js"></script>
+<script src="tutorial2.js"></script>
+
+
+</html>
