@@ -4,46 +4,22 @@
 <head>
   <title>Demos</title>
   <link rel="stylesheet" type="text/css" href="../common/style.css">
+  <script src="../common/ga.menu.js"></script>
 
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-64080149-1', 'auto');
-    ga('send', 'pageview');
-  </script>
 
 </head>
 
 <body>
   <center>
-    <div id="menulink" style="width:680px;"></div>
-    <script>
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '../common/menu.html', true);
-      xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) return;
-        if (this.status !== 200) return;
-        document.getElementById('menulink').innerHTML = this.responseText;
-      };
-      xhr.send();
-    </script>
-  </center>
-  <center>
-    <h2><font face = "Helvetica">Demos</font></h2>
+    <div id="menulink"></div>
+    <h2><font face = "Helvetica">LCSIII Demos <br> (under construction) </font></h2>
   </center>
 
   <div id="main_frame">
-    <a href="live-block/index.html">Live block</a>
+    <br>
+    <a href="demo1/index.html">Demo 1: Choose Control</a>
+    <br><a href="live-block/index.html">Demo 2: Live block</a>, <a href="demo2/index.html">Live block v2</a>
+    <br><a href="demo3/index.html">Demo 3: Track Analyze</a>
 
   </div>
 </body>

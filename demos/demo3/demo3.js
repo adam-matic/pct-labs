@@ -1,268 +1,314 @@
-var mY = 0, target_svg, cursor_svg, target_g, cursor_g, max_data = 1200, pl;
+// Based on TrackAnalyze from LCSIII, 2008
+// Delphi code by Bill Powers and Bruce Abbott
+// www.billpct.org
 
-user_data = {
-  cursor: [],
-  target: [],
-  disturbance: [],
-  distance: [],
-  distance_reference: [],
-  distance_error: []
-}
+// JS version by A. Matic, 2016
+// MIT licence
 
 
-model_data = {
-  cursor: [],
-  target: [],
-  disturbance: [],
-  distance: [],
-  distance_reference: [],
-  distance_error: []
-}
+var Demo3 = (function () {
+  "use strict";
+  var user, model, running, max_data, ta, handle, h, cursor, target, dots, start_button, counter, difficulty;
 
 
-window.onload = function () {
-  init();
-  animate();
-}
+  running = false;
+  max_data = 3600;
+  difficulty = 2;
+
+  ta = Snap("#track-area");
+  handle = lib.$("handle-slider");
+  lib.setAttr(handle, {
+    min: -300,
+    max: +300,
+    step: 1
+  });
 
 
-function init() {
-  target_svg = document.getElementById("target");
-  target_svg.setAttribute('points', "5,40 25,40 47,30 25,20 5,20");
-  target_svg.setAttribute("style", "fill:darkred");
+  cursor = ta.polygon(300, 50, 295, 60, 295, 90, 300, 100, 305, 90, 305, 60).attr('fill', 'green');
 
-  cursor_svg = document.getElementById("cursor");
-  cursor_svg.setAttribute('points', "95,40 75,40 53,30 75,20 95,20");
-  cursor_svg.setAttribute("style", "fill:darkgreen");
+  target = ta.group();
+  target.add(ta.polygon(295, 10, 295, 40, 300, 50, 305, 40, 305, 10).attr('fill', '#d00'));
+  target.add(ta.polygon(295, 140, 305, 140, 305, 110, 300, 100, 295, 110).attr('fill', '#d00'));
 
-  cursor_g = document.getElementById("cursor_g");
-  target_g = document.getElementById("target_g");
+  ta.attr("cursor", "crosshair");
+  ta.mousemove(function (ev, x, y) {
+    handle.value = -300 + x - ta.node.getBoundingClientRect().left;
+    handle.oninput();
+  });
 
-  var svg_box = document.getElementById("main_svg");
-
-  svg_box.onmousemove = function (e) {
-    mY = e.clientY;
-    //cursor_g.y = mY;
-    cursor_g.setAttribute("y", mY-95);
+  handle.oninput = function () {
+    h = Number(handle.value);
+    cursor.transform('t' + h + ",0");
   }
 
 
-  var recalc;
-  var sl1 = document.getElementById("sl1");
-  var slider1 = document.getElementById("slider1");
-  slider1.setAttribute('min',-5);
-  slider1.setAttribute('max',10);
-  slider1.setAttribute('step',0.001);
-  slider1.oninput = function () {
-    sl1.innerHTML = slider1.value;
-    recalc();
+  var disturbance = lib.make_disturbance(difficulty, 580, max_data + 350);
+
+  function set_dif(x) {
+    return function () {
+      difficulty = x;
+      disturbance = lib.make_disturbance(difficulty, 580, max_data + 350);
+    }
   }
-  var slider2 = document.getElementById("slider2");
-  var sl2 = document.getElementById("sl2");
-  slider2.setAttribute('min',0);
-  slider2.setAttribute('max',20);
-  slider2.oninput = function () {
-    sl2.innerHTML = slider2.value;
-    recalc();
+  lib.$("dif-one").onclick = set_dif(1);
+  lib.$("dif-two").onclick = set_dif(2);
+  lib.$("dif-three").onclick = set_dif(3);
+  lib.$("dif-four").onclick = set_dif(4);
+  lib.$("dif-five").onclick = set_dif(5);
+
+
+  dots = lib.$("dots");
+  start_button = lib.$("start-button");
+  counter = 0;
+
+
+  function get_counter_text(c) {
+    var t = "";
+    if (c > 300) {
+      return (65 - Math.floor(c / 60)).toFixed(0);
+    }
+    if (c <= 300) t += ".";
+    if (c <= 240) t += ".";
+    if (c <= 180) t += ".";
+    if (c <= 120) t += ".";
+    if (c <= 60) t += ".";
+    return t;
   }
-  var slider3 = document.getElementById("slider3");
-  var sl3 = document.getElementById("sl3");
-  slider3.setAttribute('min',1);
-  slider3.setAttribute('max',100);
-  slider3.oninput = function () {
-    sl3.innerHTML = slider3.value;
-    recalc();
+
+
+  var plot_options = {
+    xrange: max_data,
+    yrange: 600,
+    ticks: ["-300", "-200", "-100", "0", "100", "200", "300"]
   }
 
-
-  function recalc() {
-    pl.new_plot(model_runner({Ko: +slider1.value, delay:+slider2.value, S:+slider3.value}));
-    console.log(rms(user_data.distance, model_data.distance));
+  function sig(color) {
+    return {
+      color: color,
+      data: []
+    }
   }
 
+  user = {
+    cursor: sig('green'),
+    target: sig('red'),
+    distance: sig('black')
+  };
+  model = {
+    'model curs': sig('blue'),
+    target: sig('red'),
+    distance: sig('black')
+  }
+
+  var comparison = {
+    'cursor': sig('green'),
+    'model curs': sig('blue'),
+    'difference': sig('gray')
+  }
+
+  var plot1 = lib.svg_plot('plot1', user, plot_options);
+  var plot2 = lib.svg_plot('plot2', comparison, plot_options);
+  var plot3 = lib.svg_plot('plot3', model, plot_options);
+  var t, cv;
 
 
-  user_data.disturbance = random_wave(max_data+300, 1, 550);
-
-}
-
-function animate() {
-  var requestAnimFrame = window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function (c) {window.setTimeout(c, 1000 / 60); };
-
-  var t, c, k, count = 0;
-
-  function step() {
-    target_g.setAttribute('y', 270 + user_data.disturbance[count]);
-    t = target_g.getAttribute('y') - 270;
-    c = cursor_g.getAttribute('y') - 270;
-    user_data.cursor.push(c);
-    user_data.target.push(t);
-    user_data.distance.push(t-c);
-    user_data.distance_reference.push(0);
-    user_data.distance_error.push(user_data.distance_reference[count]
-                                - user_data.distance[count]);
-
-    count += 1;
-    if (count < max_data+300) {
-      requestAnimFrame(step);
+  start_button.onclick = function () {
+    if (running) {
+      dots.innerHTML = "";
+      running = false;
+      start_button.value = "Start 1 minute run"
     } else {
-      for (k in user_data)
-        user_data[k] = user_data[k].slice(300,user_data[k].length);
-      analyze();
+      user.cursor.data = [];
+      user.target.data = [];
+      user.distance.data = [];
+
+      counter = 0;
+      running = true;
+      recording();
+    }
+  }
+
+  function recording() {
+
+    dots.innerHTML = get_counter_text(counter);
+    t = disturbance[counter];
+    cv = h - t;
+    target.transform('t' + t + ',0');
+
+    if (counter === 300) {
+      start_button.value = 'Abort'
+    } else if (counter > 300) {
+      user.cursor.data.push(h);
+      user.distance.data.push(cv);
+      user.target.data.push(t);
+    };
+
+    if (running && (counter < (max_data + 300))) {
+      counter++;
+      lib.request_anim_frame(recording);
+    } else {
+      dots.innerHTML = "";
+      start_button.value = "Start 1 minute run";
+      //console.log(user);
+      running = false;
+
+      if (counter === max_data + 300) {
+        lib.$('tracking-rms').innerHTML = lib.rmse(user.distance.data, 600);
+        plot1.new_plot(user);
+        run_model();
+        window.user = user;
+      }
     }
   }
 
 
-  requestAnimFrame(step);
-}
+  var model_adjust = Snap("#model-params");
+  var auto_fit_button = lib.$("auto-fit-button");
 
-var model_runner;
-var pl;
+  var params = {
+    Ko: 5,
+    delay: 133.33,
+    ref: 0,
+    damping: 0.1
+  }
 
-function analyze() {
-  var default_params = { Ko: -10, delay : 5, S : 1 };
-  model_runner = model_runner_maker(user_data);
-  model_data = model_runner (default_params);
-  pl = svg_plot("model_plot", model_data);
-  ul = svg_plot("user_plot", user_data);
-}
+  function par(name, x, y, min, max, step, fixed_digits) {
+    model_adjust.text(x - 56, y, name + ':').attr({
+      'text-anchor': 'end'
+    });
+    return model_adjust.drag_number({
+      name: name,
+      x: x,
+      y: y,
+      min: min,
+      max: max,
+      step: step,
+      obj: params,
+      onchange: run_model,
+      value: params[name],
+      fixed_digits: fixed_digits || 2
+    });
+  }
+
+  var pko = par("Ko", 110, 20, -10, 100, 0.05);
+  var pref = par("ref", 110, 40, -300, 300, 0.5);
+  var pdel = par("delay", 280, 20, 0, 333.333, 16.666);
+  var pdamp = par("damping", 280, 40, 0, 1, 0.005, 3);
+
+  auto_fit_button.onclick = function () {
+    var new_params;
+    if (user.cursor.data.length >= max_data) {
+      new_params = auto_tune(user);
+      pko.update(new_params.Ko);
+      pref.update(new_params.ref);
+      pdel.update(new_params.delay);
+      pdamp.update(new_params.damping);
+      run_model();
+    }
+  }
 
 
+  function run_model() {
+    if (user.target.data.length !== max_data) return;
 
-function model_runner_maker (user_data) {
-  var d = {}, dt = 1/60;
-  d.target = user_data.target;
-  d.distance_reference = user_data.distance_reference;
-  d.disturbance = user_data.disturbance;
-  d.cursor = [];
-  d.cursor.push(user_data.cursor[0]);
-  d.distance = [];
-  d.error = [];
+    model.target.data = user.target.data;
+    model.distance.data = [];
+    model['model curs'].data = [];
+    comparison.difference.data = [];
 
-  return function (p) {
-    var i = 0, len = d.target.length, delayed, dd;
-    p.delay = Math.round(p.delay);
-    for (; i < len; i += 1) {
-      d.distance[i] = d.target[i] - d.cursor[i];
-      dd = i - p.delay;
-      delayed = d.distance[dd < 0 ? 0 : dd ];
-      d.error[i] = d.distance_reference[i] - delayed;
-      d.cursor[i+1] = d.cursor[i] +
-        (d.error[i] * p.Ko * dt) - (d.cursor[i]* (dt / p.S)) ;
+    var i, mh, mcurs, p, t, d, dt, delay, Ko, r, e, damp, qi;
+    dt = 1 / 60;
+    delay = Math.round(params.delay / (1000 / 60));
+    Ko = params.Ko;
+    r = params.ref;
+    damp = params.damping;
+    mh = user.cursor.data[0];
+    mcurs = model["model curs"].data;
+    qi = [];
 
+    function index_of_delayed(k) {
+      var di = k - delay;
+      return di >= 0 ? di : 0;
     }
 
-    return d;
-  }
-}
+    for (i = 0; i < max_data; i++) {
+      mcurs.push(mh);
+      comparison.difference.data.push(mh - user.cursor.data[i]);
+      t = model.target.data[i];
+      qi.push(mh - t);
 
-function random_wave (data_length, difficulty, range) {
-  var dif_table = [2.2/16, 2.2/22.6, 2.2/32, 2.2/45.55, 2.2/64],
-      dslow = dif_table[difficulty],
-      i, n, phase, amplitude,
-      temp, data = [];
+      p = qi[index_of_delayed(i)];
+      e = r - p;
+      mh = mh + (Ko * e - damp * mh) * dt;
 
-  for (i=0; i < data_length; i++) { data.push(0); }
-
-  for (n = 1; n < 120; n++) {
-    phase = 2 * Math.PI * Math.random();
-	amplitude = Math.exp(-0.7*dslow*n);
-	temp = 2 * Math.PI * n / data_length;
-	for (i=0; i < data_length; i++) {
-		data[i] += amplitude * Math.cos(temp * i + phase);
-	}
-  }
-  data = scale_to_range(data, -range/2, range/2);
-
-  return data;
-}
-
-function scale_to_range(data, low, high) {
-  var new_data = [],
-    min_val = Math.min.apply(null, data),
-    max_val = Math.max.apply(null, data),
-    target_range = high - low,
-    data_range = max_val - min_val,
-    k = target_range / data_range,
-    len = data.length,
-    i;
-  for (i = 0; i < len; i++) {
-    new_data[i] =  low + k * (data[i] - min_val);
-  }
-  return new_data;
-}
-
-
-function svg_plot (area, data, clrs) {
-  var c = document.getElementById(area);
-  c.style.border = 'solid 1px';
-  var i, k;
-  this.elem = [];
-  var clrs = {'cursor':'green', target:'red', distance:'gray'};
-
-  for (k in data) {
-    elem[k] = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
-    this.elem[k].style.stroke = clrs[k];
-    this.elem[k].style.fill = "none";
-    c.appendChild(this.elem[k]);
-  }
-
-  function to_line(arr, scale, offset) {
-    var i = 0, l = arr.length, s = "";
-    for (; i < l; i++) {
-      s += "" + i + "," + (offset + arr[i]*scale) + " ";
-    }
-    return s;
-}
-
-  function new_plot(data) {
-    for (k in data) {
-      this.elem[k].setAttribute("points", to_line(data[k], -0.2,100));
+      model.distance.data.push(p);
     }
 
+    comparison.cursor.data = user.cursor.data;
+    comparison["model curs"].data = mcurs;
+
+    plot2.new_plot(comparison);
+    plot3.new_plot(model);
+
+    lib.$("model-tracking-rms").innerHTML = lib.rmse(model.distance.data, 600);
+    lib.$("cursor-model-rms").innerHTML = lib.rmse(comparison.difference.data, 600);
+
+    //console.log(params);
+
   }
 
-  new_plot(data);
-  return {
-    c:c,
-    elem: elem,
-    new_plot:new_plot
+  return function set_user(user_data) {
+    user = user_data;
+  }
+}());
+
+
+function run_new_model(p, user) {
+  var i, mc, mcurs, p, t, d, dt, diff, delay, Ko, r, e, damp, qi, max_data;
+  max_data = user.cursor.data.length;
+  dt = 1 / 60;
+  delay = Math.round(p.delay / (1000 / 60));
+  Ko = p.Ko;
+  r = p.ref;
+  damp = p.damping;
+  mc = user.cursor.data[0];
+  mcurs = [];
+  qi = [];
+  diff = [];
+
+  function index_of_delayed(k) {
+    var di = k - delay;
+    return di >= 0 ? di : 0;
   }
 
+  for (i = 0; i < max_data; i++) {
+    mcurs.push(mc);
+    t = user.target.data[i];
+    qi.push(mc - t);
+
+    p = qi[index_of_delayed(i)];
+    e = r - p;
+    mc = mc + (Ko * e - damp * mc) * dt;
+
+    diff.push(mcurs[i] - user.cursor.data[i]);
+  }
+  return lib.rms0(diff);
 }
 
-function rms (a, b) {
-  var len = a.length, i = 0, sum = 0;
 
-  function sqr (x) { return x*x; }
-
-  for (; i < len; i++) {
-    sum += sqr(a[i]-b[i]);
-  }
-
-  return Math.sqrt(sum)/max_data;
-}
-
-// model_runner is an external object
-// might be useful to convert this to functional style
-// keep the object, but just the data, and then use a function
-// to pass trough it ... or something
-function tune_param (param_name, p_min, p_max, params) {
+function tune_param(param_name, p_min, p_max, params, user_data) {
   var guess = (p_min + p_max) / 2,
-      delta = (p_max - p_min) / 2,
-      tollerance = 0.00001,
-      best_fit = 100,
-      new_fit, last_fit=100,
-      best_param = guess,
-      new_params = params;
+    delta = (p_max - p_min) / 2,
+    tollerance = 0.00001,
+    best_fit = 100,
+    new_fit, last_fit = 100,
+    best_param = guess,
+    new_params = params;
 
 
-  while (Math.abs(delta) > tollerance)  {
+  while (Math.abs(delta) > tollerance) {
     new_params[param_name] = guess;
-    new_fit = rms(model_runner(new_params).distance, user_data.distance);
+    new_fit = run_new_model(new_params, user_data);
 
     if (new_fit < best_fit) {
       best_fit = new_fit;
@@ -279,22 +325,39 @@ function tune_param (param_name, p_min, p_max, params) {
 }
 
 
-function auto_tune () {
-
-  var k, tries = 5;
-  var params = { Ko: -10, delay : 5, S : 1 };
+function auto_tune(user_data) {
+  var k, tries = 8;
+  var params = {
+    Ko: 10,
+    delay: 133.33,
+    damping: 0.1,
+    ref: 0
+  };
   var param_limits = {
-    Ko   :  { min: 0, max: 300},
-    delay:  { min: 0, max: 30},
-    S    :  { min: 0.001, max: 2}
+    Ko: {
+      min: 0,
+      max: 30
+    },
+    delay: {
+      min: 0,
+      max: 300
+    },
+    damping: {
+      min: 0.001,
+      max: 1
+    },
+    ref: {
+      min: -10,
+      max: 10
+    }
   }
 
   while (tries--) {
     for (k in params) {
-      params = tune_param(k, param_limits[k].min, param_limits[k].max, params);
+      params = tune_param(k, param_limits[k].min, param_limits[k].max, params, user_data);
     }
   }
-  console.log(rms(model_data.distance, user_data.distance));
-  console.log(params);
 
+  params.delay = (Math.round(params.delay / 16.6666)) * 16.6666;
+  return params;
 }

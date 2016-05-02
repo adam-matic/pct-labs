@@ -18,24 +18,21 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
 
 */
 
-// shorthand for getting the elements
-function $(x) {
-  return document.getElementById(x);
-};
-
 // STEP C: Measuring action
 (function StepC() {
+  "use strict";
+
   var handle, handle_indicator, p;
 
   p = Snap("#C-screen");
   p.attr("cursor", "crosshair");
   p.mousemove(function (ev, x, y) {
-    handle.value = -200 + x - p.node.getBoundingClientRect().left;;
+    handle.value = -200 + x - p.node.getBoundingClientRect().left;
     handle.oninput();
   });
 
-  handle = $("C-handle-slider");
-  handle_indicator = $('C-handle-pos-indicator');
+  handle = lib.$("C-handle-slider");
+  handle_indicator = lib.$('C-handle-pos-indicator');
 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
@@ -49,6 +46,8 @@ function $(x) {
 
 // STEP D: Effect of handle on cursor
 (function StepD() {
+  "use strict";
+
   var p, cursor, handle, handle_ind, cursor_ind;
 
   p = Snap("#D-screen");
@@ -60,9 +59,9 @@ function $(x) {
 
   cursor = p.rect(200, 20, 1.5, 30);
 
-  handle = $('D-handle-slider');
-  handle_ind = $('D-handle-indicator');
-  cursor_ind = $('D-cursor-indicator');
+  handle = lib.$('D-handle-slider');
+  handle_ind = lib.$('D-handle-indicator');
+  cursor_ind = lib.$('D-cursor-indicator');
 
 
   handle.setAttribute('min', -200);
@@ -78,6 +77,8 @@ function $(x) {
 
 // Step E: Disturbances
 (function StepE() {
+  "use strict";
+
   var p, cursor, handle, handle_ind, cursor_ind, dist_ind,
     start_button, disturbance, requestAnimFrame, running, c, h, d, counter;
 
@@ -90,17 +91,16 @@ function $(x) {
 
   cursor = p.rect(200, 20, 2, 30);
 
-  handle = $('E-handle-slider');
-  handle_ind = $('E-handle-indicator');
-  cursor_ind = $('E-cursor-indicator');
-  dist_ind = $('E-dist-indicator');
-  start_button = $('E-start');
+  handle = lib.$('E-handle-slider');
+  handle_ind = lib.$('E-handle-indicator');
+  cursor_ind = lib.$('E-cursor-indicator');
+  dist_ind = lib.$('E-dist-indicator');
+  start_button = lib.$('E-start');
 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 1);
 
-  requestAnimFrame = lib.requestAnimFrame();
   running = false;
   // handle, cursor, disturbance signals:
   h = 0;
@@ -118,19 +118,17 @@ function $(x) {
   };
 
   start_button.onclick = function () {
-    if (!running) {
-      disturbance = lib.make_disturbance(3, 200);
-      running = true;
-      start_button.setAttribute("value", "Stop disturbance");
-
-      // schedules another run of function 'animate' in the next browser redraw event (every 1/60 seconds)
-      requestAnimFrame(animate);
-    } else {
-      d = 0;
-      running = false;
-      start_button.setAttribute("value", "Start disturbance");
+      if (!running) {
+        disturbance = lib.make_disturbance(3, 200);
+        running = true;
+        start_button.setAttribute("value", "Stop disturbance");
+        animate();
+      } else {
+        d = 0;
+        running = false;
+        start_button.setAttribute("value", "Start disturbance");
+      }
     }
-  }
 
   function animate() {
     c = h + d;
@@ -141,7 +139,7 @@ function $(x) {
     if (running && counter < 2100) {
       d = Math.floor(disturbance.next());
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
     } else {
       counter = 0;
       d = 0;
@@ -156,39 +154,38 @@ function $(x) {
 
 // Step F: Compensatory tracking
 (function StepF() {
-  var p = Snap("#F-screen");
+  "use strict";
+  var p, signals, cursor, start_button, handle, corr_ch, corr_hd, disturbance, running, c, h, d, counter, plot;
+
+  p = Snap("#F-screen");
   p.attr("cursor", "crosshair");
 
-  var signals = new lib.Signals();
+  signals = lib.make_signals();
   signals.add('c', 'cursor', 'black');
   signals.add('h', 'handle', 'green');
   signals.add('d', 'disturbance', 'red');
 
-  var plot = lib.Plot("#F-plot", signals);
+  plot = lib.Plot("#F-plot", signals);
 
 
-  var cursor = p.rect(200, 20, 1, 30);
+  cursor = p.rect(200, 20, 1, 30);
   p.polygon(197, 70, 200, 55, 203, 70);
   p.polygon(197, 0, 200, 15, 203, 0);
 
-  var start_button = $("F-start");
-  var handle = $('F-handle-slider');
+  start_button = lib.$("F-start");
+  handle = lib.$('F-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var corr_ch = $("F-corr-cursor-handle");
-  var corr_hd = $("F-corr-handle-disturbance");
+  corr_ch = lib.$("F-corr-cursor-handle");
+  corr_hd = lib.$("F-corr-handle-disturbance");
 
-  var requestAnimFrame = lib.requestAnimFrame();
-  var disturbance;
-  var running = false;
+  running = false;
 
-  var h = 0,
-    c = 0,
-    d = 0;
+  h = 0, c = 0, d = 0;
 
-  var counter = 0;
+  counter = 0;
 
   p.mousemove(function (ev, x, y) {
     handle.value = -200 + x - p.node.getBoundingClientRect().left;
@@ -204,7 +201,7 @@ function $(x) {
     plot.update(signals);
     running = true;
     start_button.disabled = true;
-    requestAnimFrame(animate);
+    animate();
   }
 
   function animate() {
@@ -223,7 +220,7 @@ function $(x) {
 
       // record for about 30 (+5) sec
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
 
     } else {
       counter = 0;
@@ -236,19 +233,22 @@ function $(x) {
   }
 
 
-
 }());
 
 
 
 // Step G: Pursuit tracking
 (function StepG() {
-  var c = 0,
+  "use strict"
+  var cursor, handle, t1, t2, start_button, dist1, dist2, counter, running, corr_ch, corr_hd,
+    c = 0,
     h = 0,
     d = 0,
-    t = 0;
+    t = 0,
+    p = Snap("#G-screen"),
+    signals = lib.make_signals(),
+    plot = lib.Plot("#G-plot", signals)
 
-  var p = Snap("#G-screen");
   p.attr("cursor", "crosshair");
   p.mousemove(function (ev, x, y) {
     handle.value = -200 + x - p.node.getBoundingClientRect().left;
@@ -258,32 +258,26 @@ function $(x) {
     }
   });
 
-  var signals = new lib.Signals();
   signals.add('c', 'C-T distance', 'black');
   signals.add('h', 'handle', 'green');
   signals.add('d', 'd1 - d2', 'red');
 
-  var plot = lib.Plot("#G-plot", signals);
 
-  var cursor = p.rect(200, 20, 1, 30);
-  var t1 = p.polygon(197, 70, 200, 55, 203, 70);
-  var t2 = p.polygon(197, 0, 200, 15, 203, 0);
+  cursor = p.rect(200, 20, 1, 30);
+  t1 = p.polygon(197, 70, 200, 55, 203, 70);
+  t2 = p.polygon(197, 0, 200, 15, 203, 0);
 
-  var start_button = $("G-start");
-  var handle = $('G-handle-slider');
+  start_button = lib.$("G-start");
+  handle = lib.$('G-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var corr_ch = $("G-corr-hc");
-  var corr_hd = $("G-corr-hd");
+  corr_ch = lib.$("G-corr-hc");
+  corr_hd = lib.$("G-corr-hd");
+  running = false;
 
-  var requestAnimFrame = lib.requestAnimFrame();
-  var dist1, dist2;
-
-  var running = false;
-
-  var counter = 0;
+  counter = 0;
 
 
   start_button.onclick = function () {
@@ -294,9 +288,8 @@ function $(x) {
     plot.update(signals);
     running = true;
     start_button.disabled = true;
-    requestAnimFrame(animate);
+    animate();
   }
-
 
   function animate() {
     if (running && counter < 2100) {
@@ -317,7 +310,7 @@ function $(x) {
       }
 
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
     } else {
       counter = 0;
       running = false;
@@ -336,6 +329,8 @@ function $(x) {
 
 // Step H: Beyond tracking
 (function StepH() {
+  "use strict";
+
   var c = 0,
     h = 0,
     d = 0;
@@ -346,24 +341,23 @@ function $(x) {
     handle.value = -200 + x - p.node.getBoundingClientRect().left;
   });
 
-  var signals = new lib.Signals();
+  var signals = new lib.make_signals();
   signals.add('c', 'controlled var', 'black');
   signals.add('h', 'handle', 'green');
   signals.add('d', 'disturbance', 'red');
 
 
   var plot = lib.Plot("#H-plot", signals);
-  var handle = $('H-handle-slider');
+  var handle = lib.$('H-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var corr_ch = $("H-corr-hc");
-  var corr_hd = $("H-corr-hd");
+  var corr_ch = lib.$("H-corr-hc");
+  var corr_hd = lib.$("H-corr-hd");
 
-  var start_button = $("H-start-button");
-  var play_reference_button = $("H-play-reference");
-  var requestAnimFrame = lib.requestAnimFrame();
+  var start_button = lib.$("H-start-button");
+  var play_reference_button = lib.$("H-play-reference");
 
   var dist;
   var selected_demo;
@@ -379,7 +373,7 @@ function $(x) {
 
   function set_buttons_disabled(value) {
     buttons.forEach(function (b) {
-      $(b).disabled = value;
+      lib.$(b).disabled = value;
     });
   }
 
@@ -582,7 +576,8 @@ function $(x) {
       }
 
       counter++;
-      requestAnimFrame(function () {
+
+      lib.request_anim_frame(function () {
         animate(demo)
       });
 
@@ -605,18 +600,18 @@ function $(x) {
       if (demo != pitch) {
         play_reference_button.style.visibility = "hidden";
       }
-      $("H-instructions").innerHTML = demo.instructions;
+      lib.$("H-instructions").innerHTML = demo.instructions;
       selected_demo.clear();
       selected_demo = demo;
       demo.setup();
     };
   }
 
-  $("H-orient-start").onclick = select_new_demo(orient);
-  $("H-pitch-start").onclick = select_new_demo(pitch);
-  $("H-rel-size-start").onclick = select_new_demo(rel_size);
-  $("H-shape-start").onclick = select_new_demo(keep_shape);
-  $("H-numbers-start").onclick = select_new_demo(numbers);
+  lib.$("H-orient-start").onclick = select_new_demo(orient);
+  lib.$("H-pitch-start").onclick = select_new_demo(pitch);
+  lib.$("H-rel-size-start").onclick = select_new_demo(rel_size);
+  lib.$("H-shape-start").onclick = select_new_demo(keep_shape);
+  lib.$("H-numbers-start").onclick = select_new_demo(numbers);
 
   start_button.onclick = function () {
     if (!running) {
@@ -646,7 +641,7 @@ function $(x) {
 
   // executes right after loading
   selected_demo = rel_size;
-  $("H-instructions").innerHTML = selected_demo.instructions;
+  lib.$("H-instructions").innerHTML = selected_demo.instructions;
   selected_demo.setup();
 
 }());
@@ -659,7 +654,7 @@ function $(x) {
   var p = Snap("#I-screen");
   p.attr("cursor", "crosshair");
 
-  var signals = new lib.Signals();
+  var signals = lib.make_signals();
 
   signals.add('c1', 'top cursor', 'orange');
   signals.add('c2', 'middle cursor', 'purple');
@@ -690,7 +685,7 @@ function $(x) {
   var plot3 = lib.Plot("#I-plot3", s3);
 
 
-  var handle = $('I-handle-slider');
+  var handle = lib.$('I-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
@@ -703,14 +698,13 @@ function $(x) {
   p.polygon(197, 5, 200, 20, 203, 5);
   p.polygon(197, 145, 200, 130, 203, 145);
 
-  var requestAnimFrame = lib.requestAnimFrame();
   var dist1, dist2, dist3;
 
 
   var running = false;
   var counter = 0;
 
-  var start_button = $("I-start");
+  var start_button = lib.$("I-start");
 
   p.mousemove(function (ev, x, y) {
     handle.value = -200 + x - p.node.getBoundingClientRect().left;
@@ -770,7 +764,7 @@ function $(x) {
 
       // record for about 30 (+5) sec
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
     } else if (counter === 2100) {
       counter = 0;
       running = false;
@@ -784,7 +778,7 @@ function $(x) {
 
 
   function detect_controlled() {
-    var sol = $("I-controlled-cursor");
+    var sol = lib.$("I-controlled-cursor");
     var r = stat.pearson;
     var hn = signals.h.data;
     var c1d = signals.c1.data;
@@ -822,7 +816,7 @@ function $(x) {
   var p = Snap("#J-screen");
   p.attr("cursor", "crosshair");
 
-  var signals = new lib.Signals();
+  var signals = lib.make_signals();
   signals.add('c', 'cursor', 'black');
   signals.add('h', 'handle', 'green');
   signals.add('d', 'disturbance', 'red');
@@ -833,16 +827,15 @@ function $(x) {
   p.polygon(197, 70, 200, 55, 203, 70);
   p.polygon(197, 0, 200, 15, 203, 0);
 
-  var start_button = $("J-start");
-  var handle = $('J-handle-slider');
+  var start_button = lib.$("J-start");
+  var handle = lib.$('J-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var feedback_input = $("J-feedback-factor");
-  var handle_effect_percent = $("J-handle-effect");
+  var feedback_input = lib.$("J-feedback-factor");
+  var handle_effect_percent = lib.$("J-handle-effect");
   var Kf = 1;
-  var requestAnimFrame = lib.requestAnimFrame();
   var disturbance;
   var running = false;
 
@@ -871,7 +864,7 @@ function $(x) {
     plot.update(signals);
     running = true;
     start_button.disabled = true;
-    requestAnimFrame(animate);
+    lib.request_anim_frame(animate);
   }
 
   function animate() {
@@ -888,7 +881,7 @@ function $(x) {
       }
 
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
 
     } else {
       counter = 0;
@@ -910,7 +903,7 @@ function $(x) {
   var p = Snap("#K-screen");
   p.attr("cursor", "crosshair");
 
-  var signals = new lib.Signals();
+  var signals = lib.make_signals();
   signals.add('cv', 'free end', 'black');
   signals.add('h', 'handle', 'green');
   signals.add('d', 'd1 - d2', 'red');
@@ -927,13 +920,12 @@ function $(x) {
   var cursor = p.rect(199, 105, 1, 20);
   var mark = p.polygon(197, 0, 200, 15, 203, 0);
 
-  var start_button = $("K-start");
-  var handle = $('K-handle-slider');
+  var start_button = lib.$("K-start");
+  var handle = lib.$('K-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var requestAnimFrame = lib.requestAnimFrame();
   var dist1, dist2;
 
   var running = false;
@@ -964,7 +956,7 @@ function $(x) {
     plot.update(signals);
     running = true;
     start_button.disabled = true;
-    requestAnimFrame(animate);
+    animate();
   }
 
   var animate = function () {
@@ -996,7 +988,7 @@ function $(x) {
 
       // record for about 30 (+5) sec
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
     } else {
       counter = 0;
       running = false;
@@ -1017,7 +1009,7 @@ function $(x) {
   var p = Snap("#L-screen");
   p.attr("cursor", "none");
 
-  var signals = new lib.Signals();
+  var signals = lib.make_signals();
   signals.add('c', 'cursor', 'black');
   signals.add('h', 'handle', 'green');
   signals.add('d', 'disturbance', 'red');
@@ -1028,22 +1020,21 @@ function $(x) {
   p.polygon(197, 70, 200, 55, 203, 70);
   p.polygon(197, 0, 200, 15, 203, 0);
 
-  var handle = $('L-handle-slider');
+  var handle = lib.$('L-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var selected_ff = $("L-radio-ff");
-  var selected_fb = $("L-radio-fb");
+  var selected_ff = lib.$("L-radio-ff");
+  var selected_fb = lib.$("L-radio-fb");
 
-  var start_btn = $("L-start");
-  var corr_ch_ff = $("L-corr-cursor-handle-ff");
-  var corr_hd_ff = $("L-corr-handle-disturbance-ff");
+  var start_btn = lib.$("L-start");
+  var corr_ch_ff = lib.$("L-corr-cursor-handle-ff");
+  var corr_hd_ff = lib.$("L-corr-handle-disturbance-ff");
 
-  var corr_ch_fb = $("L-corr-cursor-handle-fb");
-  var corr_hd_fb = $("L-corr-handle-disturbance-fb");
+  var corr_ch_fb = lib.$("L-corr-cursor-handle-fb");
+  var corr_hd_fb = lib.$("L-corr-handle-disturbance-fb");
 
-  var requestAnimFrame = lib.requestAnimFrame();
   var disturbance = lib.make_disturbance(3, 400);
   var running = false;
 
@@ -1069,7 +1060,7 @@ function $(x) {
       cursor.attr('x', 200.00 + d);
     },
     calc: function () {
-      $("L-rms-ff").innerHTML = rms(signals.c.data).toFixed(2);
+      lib.$("L-rms-ff").innerHTML = rms(signals.c.data).toFixed(2);
       corr_ch_ff.innerHTML = stat.pearson(signals.c.data, signals.h.data).toFixed(2);
       corr_hd_ff.innerHTML = stat.pearson(signals.h.data, signals.d.data).toFixed(2);
     }
@@ -1081,23 +1072,23 @@ function $(x) {
       cursor.attr('x', 200.00 + c);
     },
     calc: function () {
-      $("L-rms-fb").innerHTML = rms(signals.c.data).toFixed(2);
+      lib.$("L-rms-fb").innerHTML = rms(signals.c.data).toFixed(2);
       corr_ch_fb.innerHTML = stat.pearson(signals.c.data, signals.h.data).toFixed(2);
       corr_hd_fb.innerHTML = stat.pearson(signals.h.data, signals.d.data).toFixed(2);
     }
   }
 
   var selected = fb;
-  $("L-instructions").innerHTML = fb.instructions;
+  lib.$("L-instructions").innerHTML = fb.instructions;
 
   selected_ff.onclick = function () {
     selected = ff;
-    $("L-instructions").innerHTML = ff.instructions;
+    lib.$("L-instructions").innerHTML = ff.instructions;
   }
 
   selected_fb.onclick = function () {
     selected = fb;
-    $("L-instructions").innerHTML = fb.instructions;
+    lib.$("L-instructions").innerHTML = fb.instructions;
   }
 
   start_btn.onclick = function () {
@@ -1135,7 +1126,7 @@ function $(x) {
       }
 
       counter++;
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
     } else {
       counter = 0;
       plot.update(signals);

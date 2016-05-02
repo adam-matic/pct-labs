@@ -22,32 +22,91 @@
       The object below is continually changing in three of its characteristics:</p>
     <ul stlye="list-style-type:circle">
       <li>Position (left/right), </li>
-      <li>Axis Orientation (up/down), and </li>
-      <li>Shape (wide/thin).</li>
+      <li>Shape (wide/thin), and </li>
+      <li>Axis Orientation (up/down). </li>
     </ul>
     <center>
-      <div id="container" style="background-color:#000; width:600px; height:150px;">
+      <div id="container" style="background-color:#000; width:600px; height:180px;">
       </div>
 
       <br>
       <input type="range" id="slider1" style="width:500px;">
       <br>
-
-      <input type="button" id='start-button' value="Start 1 minute run">
       <span id="dots"></span>
+      <br>
+      <input type="button" id='start-button' value="Start 1 minute run">
+      <br>
+
       <br>
     </center>
 
     <p>
-      The slider control below of the object display area affects all three characteristics simultaneously when you drag the slider left or right (try it!). You can use the slider to counteract the changes taking place to any one of the three characteristics. Choose one of the three characteristics and practice using the mouse to keep that characteristic from varying. When you are ready to record a run, click the Start button.</p>
+      The slider control affects all three characteristics simultaneously when you drag the it left or right (try it!). You can use the slider to counteract the changes taking place to any one of the three characteristics. Choose one of the three characteristics and practice using the mouse to keep that characteristic from varying. When you are ready to record a run, click the Start button.</p>
+    <p>
+      Data recording begins after a brief delay, intended to give you time to begin controlling. When recording begins, the color of the sphere changes from red to green.
+    </p>
+    <br>
 
     <center>
-
-      <p id="Analysis"></p>
+      <h2>Analysis</h2>
+    </center>
+    <br>
+    <br>
+    <p style="font-size:12px; text-align:right">
+      <center>
+        <svg id="Plot1" style="width:500px; height:100px;"></svg>
+      </center>
+      <br>Correlations:
+      <br>position vs disturbance1: <span id="r-pos-ds1">....</span>
+      <br>mouse vs disturbance1: <span id="r-mouse-ds1">....</span>
+      <br>mouse vs position: <span id="r-mouse-pos">....</span>
       <br>
-      <svg id="Plot1" style="width:500px;"></svg>
-      <svg id="Plot2" style="width:500px;"></svg>
-      <svg id="Plot3" style="width:500px;"></svg>
+      <br>
+      <br>
+      <center>
+        <svg id="Plot2" style="width:500px; height:100px;"></svg>
+      </center>
+      <br>Correlations:
+      <br>shape vs disturbance2: <span id="r-shape-ds2">....</span>
+      <br>mouse vs disturbance2: <span id="r-mouse-ds2">....</span>
+      <br>mouse vs shape: <span id="r-mouse-shape">....</span>
+      <br>
+      <br>
+      <br>
+      <center>
+        <svg id="Plot3" style="width:500px; height:100px;"></svg>
+      </center>
+      <br>Correlations:
+      <br>orientation vs disturbance3: <span id="r-orient-ds3">....</span>
+      <br>mouse vs disturbance3: <span id="r-mouse-ds3">....</span>
+      <br>mouse vs orientation: <span id="r-mouse-orient">....</span>
+      <br>
+      <br>
+    </p>
+    <p>You were controlling: <span id="controlled-var">...</span>.</p>
+    <br>
+    <br>
+    <center>
+      <h2> Model fitting
+    </h2></center>
+    <br>
+    <p>
+      Select the variable you want to fit using data from previous run (selected automaticaly after the run).
+      <br>
+      <input type="radio" name="fitting" id="fit-position">Position
+      <input type="radio" name="fitting" id="fit-shape">Shape
+      <input type="radio" name="fitting" id="fit-orient">Orientation
+    </p>
+    <p>
+      Try dragging the model's gain (Ko) and reference (r) values to reduce the RMS difference and note how this changes the model mouse's curve and the curve displaying the error between the model's prediction and your actual movements of the mouse.
+    </p>
+
+    <center>
+      <svg style="width:200px; height:50px;" id="model-adjust"></svg>
+
+      <p style='font-size:12px; text-align:left;'> RMS difference: <span id="model-rms-difference"></span></p>
+
+      <svg id="model-plot" style="width:500px; height:100px;"></svg>
 
     </center>
   </div>

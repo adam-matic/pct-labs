@@ -19,11 +19,6 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
 
 */
 
-// shorthand for getting the elements
-function $(x) {
-  return document.getElementById(x);
-}
-
 // creates a 'circ' function which is just the circle rim without fill (default 'circle' a black filled circle)
 Snap.plugin(function (Snap, Element, Paper, global) {
   Element.prototype.circ = function (x, y, r) {
@@ -350,9 +345,9 @@ function Demo(params) {
   };
 
   diagram_screen = Snap("#" + params.diagram_screen);
-  handle = $(params.handle);
+  handle = lib.$(params.handle);
   cursor_screen = Snap('#' + params.cursor_screen);
-  start_button = $(params.start_button);
+  start_button = lib.$(params.start_button);
   plot = LivePlot('#' + params.plot);
 
   demo.running = false;
@@ -382,14 +377,12 @@ function Demo(params) {
     if (!demo.running) {
       demo.running = true;
       start_button.setAttribute("value", "Pause");
-      requestAnimFrame(animate);
+      lib.request_anim_frame(animate);
     } else {
       demo.running = false;
       start_button.setAttribute("value", "Start");
     }
   }
-
-  requestAnimFrame = lib.requestAnimFrame();
 
   function animate() {
     if (demo.running) {
@@ -401,7 +394,7 @@ function Demo(params) {
         d: demo.d
       });
     }
-    requestAnimFrame(animate);
+    lib.request_anim_frame(animate);
   }
 
 
@@ -765,7 +758,7 @@ function add_close_loop(s, recalc) {
     m.diagram_screen.h.text.attr('text', b_show ? "qo" : 'h');
   }
 
-  close_loop_button = $('F-close-loop');
+  close_loop_button = lib.$('F-close-loop');
 
   close_loop_button.onclick = function () {
     if (loop_closed) {
@@ -910,7 +903,7 @@ function eq_parameter(snap_scr, opts) {
 // The Equations of Control
 (function StepG() {
   var eq = Snap("#G-equations");
-  var start_button = $("G-start");
+  var start_button = lib.$("G-start");
 
   var p = 0,
     r = 0,
@@ -1068,7 +1061,7 @@ function eq_parameter(snap_scr, opts) {
     view.qo2.update(qo);
   }
 
-  var requestAnimFrame = lib.requestAnimFrame();
+
   var running = false;
 
   start_button.onclick = function () {
@@ -1092,7 +1085,7 @@ function eq_parameter(snap_scr, opts) {
     view.update();
 
     if (running) {
-      requestAnimFrame(solve);
+      lib.request_anim_frame(solve);
     }
   }
 
@@ -1103,7 +1096,7 @@ function eq_parameter(snap_scr, opts) {
 // Dynamics: The Slowing Factor
 (function StepH() {
   var eq = Snap("#H-equations");
-  var step_button = $("H-step");
+  var step_button = lib.$("H-step");
 
   var r = 0,
     e = 1,
@@ -1206,8 +1199,8 @@ function eq_parameter(snap_scr, opts) {
 // The Equations of Control
 (function StepG() {
   var eq = Snap("#I-equations");
-  var start_button = $("I-start");
-  var step_button = $("I-step");
+  var start_button = lib.$("I-start");
+  var step_button = lib.$("I-step");
 
   var p = 0,
     r = 0,
@@ -1417,8 +1410,8 @@ function eq_parameter(snap_scr, opts) {
     par.r.reset();
   }
   var loop_gain, optimum_S;
-  var span_loop_gain = $("I-loop-gain");
-  var span_optimum_S = $("I-slowing-factor");
+  var span_loop_gain = lib.$("I-loop-gain");
+  var span_optimum_S = lib.$("I-slowing-factor");
 
   function update_gain() {
     loop_gain = Kf * Ki * Ko;
@@ -1443,10 +1436,10 @@ function eq_parameter(snap_scr, opts) {
     qo_new = lib.constrain(qo_new, -10000, 10000);
     qo_old = qo_new;
     view.update();
-    if (running) requestAnimFrame(solve);
+    if (running) lib.request_anim_frame(solve);
   }
 
-  var requestAnimFrame = lib.requestAnimFrame();
+
   var running = false;
 
   start_button.onclick = function () {
@@ -1462,7 +1455,7 @@ function eq_parameter(snap_scr, opts) {
     }
   }
 
-  var reset_button = $("I-reset");
+  var reset_button = lib.$("I-reset");
   reset_button.onclick = function () {
     par.reset();
     p = 0;
@@ -1487,19 +1480,19 @@ function eq_parameter(snap_scr, opts) {
     handle.value = -200 + x - p.node.getBoundingClientRect().left;
   });
 
-  var user_data = new lib.Signals();
+  var user_data = lib.make_signals();
   user_data.add('c', 'controlled var', 'black');
   user_data.add('h', 'handle', 'green');
   user_data.add('d', 'disturbance', 'red');
 
   var plot = lib.Plot("#J-user-plot", user_data);
-  var handle = $('J-handle-slider');
+  var handle = lib.$('J-handle-slider');
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
 
-  var start_button = $("J-start-button");
-  var requestAnimFrame = lib.requestAnimFrame();
+  var start_button = lib.$("J-start-button");
+
 
   var dist;
   var selected_demo;
@@ -1511,7 +1504,7 @@ function eq_parameter(snap_scr, opts) {
 
   function set_buttons_disabled(value) {
     buttons.forEach(function (b) {
-      $(b).disabled = value;
+      lib.$(b).disabled = value;
     });
   }
 
@@ -1537,7 +1530,7 @@ function eq_parameter(snap_scr, opts) {
   }());
 
 
-  var play_reference_button = $("J-play-reference");
+  var play_reference_button = lib.$("J-play-reference");
   var control_sound = (function () {
     var context, oscillator, created_context;
 
@@ -1645,7 +1638,7 @@ function eq_parameter(snap_scr, opts) {
         user_data.d.data.push(d);
       }
       counter++;
-      requestAnimFrame(function () {
+      lib.request_anim_frame(function () {
         animate(demo)
       });
 
@@ -1671,27 +1664,27 @@ function eq_parameter(snap_scr, opts) {
       if (demo != control_sound) {
         play_reference_button.style.visibility = "hidden";
       }
-      $("J-instructions").innerHTML = demo.instructions;
+      lib.$("J-instructions").innerHTML = demo.instructions;
       selected_demo.clear();
       selected_demo = demo;
       demo.setup();
     };
   }
 
-  $("J-cursor").onclick = select_new_demo(control_cursor);
-  $("J-sound").onclick = select_new_demo(control_sound);
-  $("J-number").onclick = select_new_demo(control_number);
+  lib.$("J-cursor").onclick = select_new_demo(control_cursor);
+  lib.$("J-sound").onclick = select_new_demo(control_sound);
+  lib.$("J-number").onclick = select_new_demo(control_number);
 
-  $("J-one").onclick = function () {
+  lib.$("J-one").onclick = function () {
     difficulty = 1;
   };
-  $("J-two").onclick = function () {
+  lib.$("J-two").onclick = function () {
     difficulty = 2;
   }
-  $("J-three").onclick = function () {
+  lib.$("J-three").onclick = function () {
     difficulty = 3;
   }
-  $("J-four").onclick = function () {
+  lib.$("J-four").onclick = function () {
     difficulty = 4;
   }
 
@@ -1725,7 +1718,7 @@ function eq_parameter(snap_scr, opts) {
 
   // executes right after loading
   selected_demo = control_cursor;
-  $("J-instructions").innerHTML = selected_demo.instructions;
+  lib.$("J-instructions").innerHTML = selected_demo.instructions;
   selected_demo.setup();
 
 
@@ -1762,7 +1755,7 @@ function eq_parameter(snap_scr, opts) {
     onchange: run_model
   });
 
-  var model_data = new lib.Signals();
+  var model_data = lib.make_signals();
   model_data.add('c', 'model cv', 'black');
   model_data.add('h', 'model handle', 'green');
   model_data.add('d', 'disturbance', 'red');
@@ -1778,7 +1771,7 @@ function eq_parameter(snap_scr, opts) {
   }
 
   var difference_plot = lib.Plot("#J-difference-plot", dif_signal);
-  $("J-integration-factor").innerHTML = (pKo.value / pS.value).toFixed(3);
+  lib.$("J-integration-factor").innerHTML = (pKo.value / pS.value).toFixed(3);
 
   function rms(s) {
     var sum = 0,
@@ -1828,9 +1821,9 @@ function eq_parameter(snap_scr, opts) {
       dif_signal.dif.data.push(h - user_data.h.data[i]);
     }
 
-    $("J-rms-difference").innerHTML = rms(dif_signal.dif.data).toFixed(3);
-    $("J-integration-factor").innerHTML = (Ko / S).toFixed(3);
-    $("J-correlation").innerHTML = stat.pearson(user_data.h.data, model_data.h.data).toFixed(3);
+    lib.$("J-rms-difference").innerHTML = rms(dif_signal.dif.data).toFixed(3);
+    lib.$("J-integration-factor").innerHTML = (Ko / S).toFixed(3);
+    lib.$("J-correlation").innerHTML = stat.pearson(user_data.h.data, model_data.h.data).toFixed(3);
     model_plot.update(model_data);
     difference_plot.update(dif_signal);
   }
@@ -1891,7 +1884,7 @@ var StepK = (function () {
 
   self.user_data = {};
 
-  var model_data = new lib.Signals();
+  var model_data = lib.make_signals();
   model_data.add('c', 'model cv', 'black');
   model_data.add('h', 'model handle', 'green');
   model_data.add('d', 'disturbance', 'red');
@@ -1906,7 +1899,7 @@ var StepK = (function () {
   }
 
   var difference_plot = lib.Plot("#K-difference-plot", dif_signal);
-  $("K-integration-factor").innerHTML = (pKo.value / pS.value).toFixed(3);
+  lib.$("K-integration-factor").innerHTML = (pKo.value / pS.value).toFixed(3);
 
   function rms(s) {
     var sum = 0,
@@ -1952,9 +1945,9 @@ var StepK = (function () {
       dif_signal.dif.data.push(h - user_data.h.data[i]);
     }
 
-    $("K-rms-difference").innerHTML = rms(dif_signal.dif.data).toFixed(3);
-    $("K-integration-factor").innerHTML = (Ko / S).toFixed(3);
-    $("K-correlation").innerHTML = stat.pearson(user_data.h.data, model_data.h.data).toFixed(3);
+    lib.$("K-rms-difference").innerHTML = rms(dif_signal.dif.data).toFixed(3);
+    lib.$("K-integration-factor").innerHTML = (Ko / S).toFixed(3);
+    lib.$("K-correlation").innerHTML = stat.pearson(user_data.h.data, model_data.h.data).toFixed(3);
     model_plot.update(model_data);
     difference_plot.update(dif_signal);
   }
