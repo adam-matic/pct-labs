@@ -2,45 +2,35 @@
 <html>
 
 <body>
-  <style type="text/css">
-    #main-menu-div {
-      margin-top: 50px;
-    }
-
-    #drop-nav {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-    }
-
-    .menu-li {
-      float: left;
-    }
-
-    .menu-li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      background-color: #333;
-      text-decoration: none;
-    }
-
-    .menu-li a:hover {
-      background: #622;
-    }
-  </style>
-
   <div id="main-menu-div">
-    <ul id="drop-nav">
-      <li class="menu-li"><a href="/pct-labs/index.html">Home</a></li>
-      <li class="menu-li"><a href="/pct-labs/tutorial1/index.html">Tutorial 1</a></li>
-      <li class="menu-li"><a href="/pct-labs/tutorial2/index.html">Tutorial 2</a></li>
-      <li class="menu-li"><a href="/pct-labs/demos/index.html">LCSIII Demos</a></li>
-    </ul>
+    <input type="checkbox" id="menu-toggle"/>
+    <label for="menu-toggle" class="hamburger">&#9776;</label>
+    <nav id="drop-nav">
+      <a href="/index.html" class="menu-link" data-path="index.html">Home</a>
+      <a href="/tutorial1/index.html" class="menu-link" data-path="tutorial1/index.html">Tutorial 1</a>
+      <a href="/tutorial2/index.html" class="menu-link" data-path="tutorial2/index.html">Tutorial 2</a>
+      <a href="/demos/index.html" class="menu-link" data-path="demos/index.html">LCSIII Demos</a>
+    </nav>
   </div>
+
+  <script>
+    (function() {
+      // Detect base path: use /pct-labs/ for GitHub Pages, / for localhost
+      var basePath = (window.location.hostname === 'localhost' ||
+                      window.location.hostname === '127.0.0.1' ||
+                      window.location.hostname === '')
+        ? '/'
+        : '/pct-labs/';
+
+      // Update all menu links with correct base path
+      var links = document.querySelectorAll('.menu-link');
+      for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        var path = link.getAttribute('data-path');
+        link.href = basePath + path;
+      }
+    })();
+  </script>
 
 </body>
 

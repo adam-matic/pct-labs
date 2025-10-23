@@ -1,24 +1,453 @@
 body {
-  background-color: lightgray;
+  background-color: #eee;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Modern sans-serif font stack */
+  line-height: 1.6;
+  color: #333;
 }
 
 #menulink {
-  width: 700px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto; /* Center the menulink div */
+}
+
+/* New menu styling */
+#main-menu-div {
+  margin-top: 0;
+  background-color: #333;
+  position: relative;
+}
+
+#menu-toggle {
+  display: none; /* Hide the checkbox */
+}
+
+.hamburger {
+  display: none; /* Hidden by default, shown on mobile */
+  color: white;
+  font-size: 30px;
+  padding: 10px 15px;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  z-index: 1000;
+}
+
+#drop-nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  display: flex; /* Use flexbox for horizontal layout */
+  justify-content: center;
+}
+
+#drop-nav a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#drop-nav a:hover {
+  background: #622;
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .hamburger {
+    display: block; /* Show hamburger on mobile */
+  }
+
+  #drop-nav {
+    flex-direction: column; /* Stack links vertically */
+    display: none; /* Hide menu by default */
+    width: 100%;
+    position: absolute;
+    top: 50px; /* Below the hamburger */
+    left: 0;
+    background-color: #333;
+  }
+
+  #menu-toggle:checked + .hamburger + #drop-nav {
+    display: flex; /* Show menu when checkbox is checked */
+  }
+
+  #drop-nav a {
+    text-align: left;
+    padding-left: 20px;
+  }
+}
+
+.main-title {
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Modern sans-serif font */
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+}
+
+.subtitle {
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #555;
+  margin-bottom: 30px;
+  font-size: 1.5em;
+}
+
+h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+  text-align: center; /* Center h3 tags */
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 #main_frame {
-  width: 600px;
+  max-width: 900px;
+  width: calc(100% - 40px);
   margin: auto;
-  padding: 50px;
+  padding: 20px;
   text-align: justify;
-  top: 50px;
-  line-height: 150%;
-  font-family: monospace;
-  background-color: #eee;
-  font-size: 14px;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Consistent font */
+  background-color: transparent;
+  font-size: 16px; /* Slightly larger font for readability */
+  box-sizing: border-box;
+  margin-top: 20px; /* Add some space below the title */
+}
+
+.image-container,
+.simulation-container {
+  text-align: center; /* Center images and simulation elements */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Make sliders responsive and prevent page scrolling */
+.simulation-container input[type="range"] {
+  touch-action: none; /* Prevent scrolling while dragging */
+}
+
+/* Styling for input elements */
+input[type="range"] {
+  width: 100%;
+  margin: 10px 0;
+  -webkit-appearance: none;
+  background: transparent;
+  touch-action: pan-y; /* Allow vertical scrolling but capture horizontal touch for slider */
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #007bff;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  margin-top: -8px; /* You need to specify a margin-top value that is half of the difference between the slider height and the thumb height*/
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+/* Firefox slider thumb */
+input[type="range"]::-moz-range-thumb {
+  border: 1px solid #007bff;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+/* MS slider thumb */
+input[type="range"]::-ms-thumb {
+  border: 1px solid #007bff;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type="button"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 5px;
+}
+
+input[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* Desktop - add more padding on larger screens */
+@media (min-width: 768px) {
+  #main_frame {
+    padding: 50px;
+  }
+}
+
+/* Mobile - optimize for small screens */
+@media (max-width: 767px) {
+  #main_frame {
+    font-size: 15px; /* Adjusted for mobile readability */
+    padding: 15px;
+    width: calc(100% - 30px); /* Reduce padding on mobile */
+  }
+
+  #main_frame img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Center simulation containers and allow natural scaling */
+  .simulation-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 0;
+  }
+
+  /* SVGs will scale responsively via JavaScript viewBox */
+  .simulation-container svg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Ensure all SVGs (including plots) don't exceed viewport width */
+  #main_frame svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Center sliders within container */
+  .simulation-container input[type="range"] {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Make sliders match the container width on mobile */
+  .simulation-container input[type="range"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Larger touch targets for mobile sliders */
+  input[type="range"]::-webkit-slider-thumb {
+    height: 30px;
+    width: 30px;
+    margin-top: -13px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    height: 30px;
+    width: 30px;
+  }
+
+  input[type="range"]::-ms-thumb {
+    height: 30px;
+    width: 30px;
+  }
+
+  /* Larger track for easier touch */
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 12px;
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 12px;
+  }
+
+  input[type="range"]::-ms-track {
+    height: 12px;
+  }
 }
 
 #code {
-  font-family: sans-serif;
-  line-height: 100%;
+  font-family: 'Courier New', Courier, monospace; /* Monospace for code */
+  line-height: 1.4;
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+/* Hero section */
+.hero {
+  text-align: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+
+.hero-tagline {
+  font-size: 1.2em;
+  color: #555;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* Section styling */
+.section {
+  max-width: 1400px;
+  margin: 0 auto 50px;
+  padding: 0 10px;
+}
+
+.section-title {
+  font-size: 2em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 10px;
+}
+
+/* Cards grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+/* Individual card */
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #e0e0e0;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.2);
+  border-color: #007bff;
+  text-decoration: none;
+}
+
+.card-title {
+  font-size: 1.4em;
+  color: #007bff;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.card:hover .card-title {
+  color: #0056b3;
+}
+
+.card-description {
+  color: #666;
+  line-height: 1.6;
+  flex-grow: 1;
+  font-size: 0.95em;
+}
+
+.card-arrow {
+  margin-top: 15px;
+  color: #007bff;
+  font-weight: bold;
+  align-self: flex-end;
+}
+
+/* About section (background info) */
+.about-section {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.about-section h3 {
+  color: #333;
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-title {
+    font-size: 1.6em;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .hero-tagline {
+    font-size: 1.1em;
+  }
+
+  .about-section {
+    padding: 20px;
+    margin: 40px 20px;
+  }
+}
+
+/* Tablet responsive */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

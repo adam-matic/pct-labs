@@ -253,9 +253,20 @@
   };
 
   lib.Plot = function (plot_area, signals) {
-    var plot, lines;
+    var plot, lines, svgElement;
 
     plot = Snap(plot_area);
+    svgElement = plot.node;
+
+    // Ensure the SVG has a viewBox set for consistent coordinate system
+    if (!svgElement.hasAttribute('viewBox')) {
+      var width = svgElement.getAttribute('width') || svgElement.style.width || '500px';
+      var height = svgElement.getAttribute('height') || svgElement.style.height || '100px';
+      width = parseInt(width, 10);
+      height = parseInt(height, 10);
+      svgElement.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+    }
+
     lines = [];
 
     function draw_axes() {

@@ -721,6 +721,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
       dist1 = lib.make_disturbance(3, 200);
       dist2 = lib.make_disturbance(3, 200);
       dist3 = lib.make_disturbance(3, 200);
+      signals.reset();
       counter = 0;
       start_button.value = "Stop";
       running = true;
@@ -784,19 +785,39 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
     var c1d = signals.c1.data;
     var c2d = signals.c2.data;
     var c3d = signals.c3.data;
+    var d1d = signals.d1.data;
+    var d2d = signals.d2.data;
+    var d3d = signals.d3.data;
 
-    var r1 = Math.abs(r(hn, c1d));
-    var r2 = Math.abs(r(hn, c2d));
-    var r3 = Math.abs(r(hn, c3d));
+    // Correlations between handle and cursors
+    var r1_hc = Math.abs(r(hn, c1d));
+    var r2_hc = Math.abs(r(hn, c2d));
+    var r3_hc = Math.abs(r(hn, c3d));
 
-    if (r1 < r2 && r1 < r3) {
-      sol.innerHTML = "top cursor";
+    // Correlations between cursors and disturbances
+    var r1_cd = Math.abs(r(c1d, d1d));
+    var r2_cd = Math.abs(r(c2d, d2d));
+    var r3_cd = Math.abs(r(c3d, d3d));
+
+    // Display cursor-disturbance correlations
+    lib.$("I-corr-c1d1").innerHTML = r1_cd.toFixed(3);
+    lib.$("I-corr-c2d2").innerHTML = r2_cd.toFixed(3);
+    lib.$("I-corr-c3d3").innerHTML = r3_cd.toFixed(3);
+
+    // Print correlation values for debugging
+    console.log("Correlation values:");
+    console.log("Top cursor: handle-cursor = " + r1_hc.toFixed(3) + ", cursor-disturbance = " + r1_cd.toFixed(3));
+    console.log("Middle cursor: handle-cursor = " + r2_hc.toFixed(3) + ", cursor-disturbance = " + r2_cd.toFixed(3));
+    console.log("Bottom cursor: handle-cursor = " + r3_hc.toFixed(3) + ", cursor-disturbance = " + r3_cd.toFixed(3));
+
+    if (r1_cd < r2_cd && r1_cd < r3_cd) {
+      sol.innerHTML = "top cursor (r_h-c=" + r1_hc.toFixed(3) + ", r_c-d=" + r1_cd.toFixed(3) + ")";
       sol.style.color = signals.c1.color;
-    } else if (r2 < r3 && r2 < r1) {
-      sol.innerHTML = "middle cursor";
+    } else if (r2_cd < r3_cd && r2_cd < r1_cd) {
+      sol.innerHTML = "middle cursor (r_h-c=" + r2_hc.toFixed(3) + ", r_c-d=" + r2_cd.toFixed(3) + ")";
       sol.style.color = signals.c2.color;
-    } else if (r3 < r2 && r3 < r1) {
-      sol.innerHTML = "bottom cursor";
+    } else if (r3_cd < r2_cd && r3_cd < r1_cd) {
+      sol.innerHTML = "bottom cursor (r_h-c=" + r3_hc.toFixed(3) + ", r_c-d=" + r3_cd.toFixed(3) + ")";
       sol.style.color = signals.c3.color;
     }
   }
