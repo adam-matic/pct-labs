@@ -362,9 +362,11 @@ function Demo(params) {
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 1);
+  handle.value = 0;
   handle.oninput = function () {
     if (!demo.running) demo.recalc();
-  }
+  };
+  handle.oninput();
 
 
   cursor = cursor_screen.rect(199, 20, 1, 30);
@@ -1490,6 +1492,7 @@ function eq_parameter(snap_scr, opts) {
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   var start_button = lib.$("J-start-button");
 

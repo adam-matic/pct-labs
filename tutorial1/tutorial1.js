@@ -37,10 +37,12 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 1);
+  handle.value = 0;
 
   handle.oninput = function () {
     handle_indicator.innerHTML = +handle.value;
   };
+  handle.oninput();
 }());
 
 
@@ -67,12 +69,14 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 1);
+  handle.value = 0;
 
   handle.oninput = function () {
     handle_ind.innerHTML = +handle.value;
     cursor_ind.innerHTML = +handle.value;
     cursor.attr('x', (200 + Number(handle.value)) + 'px');
   };
+  handle.oninput();
 }());
 
 // Step E: Disturbances
@@ -100,6 +104,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 1);
+  handle.value = 0;
 
   running = false;
   // handle, cursor, disturbance signals:
@@ -177,6 +182,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   corr_ch = lib.$("F-corr-cursor-handle");
   corr_hd = lib.$("F-corr-handle-disturbance");
@@ -272,6 +278,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   corr_ch = lib.$("G-corr-hc");
   corr_hd = lib.$("G-corr-hd");
@@ -352,6 +359,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   var corr_ch = lib.$("H-corr-hc");
   var corr_hd = lib.$("H-corr-hd");
@@ -689,6 +697,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   var cursor1 = p.rect(200, 30, 1, 22).attr('stroke', s1.c1.color);
   var cursor2 = p.rect(200, 65, 1, 22).attr('stroke', s2.c2.color);
@@ -853,6 +862,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   var feedback_input = lib.$("J-feedback-factor");
   var handle_effect_percent = lib.$("J-handle-effect");
@@ -946,6 +956,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   var dist1, dist2;
 
@@ -1045,6 +1056,7 @@ the tutorial separately. HTML page contains draw areas, plot areas, buttons and 
   handle.setAttribute('min', -200);
   handle.setAttribute('max', 200);
   handle.setAttribute('step', 0.1);
+  handle.value = 0;
 
   var selected_ff = lib.$("L-radio-ff");
   var selected_fb = lib.$("L-radio-fb");

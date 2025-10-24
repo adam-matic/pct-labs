@@ -90,7 +90,7 @@ body {
   color: #333;
   margin-top: 20px;
   margin-bottom: 10px;
-  font-size: 2.5em;
+  font-size: 1.8em;
 }
 
 .subtitle {
@@ -99,6 +99,16 @@ body {
   color: #555;
   margin-bottom: 30px;
   font-size: 1.5em;
+}
+
+.attribution {
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #666;
+  font-size: 0.9em;
+  margin-top: -15px;
+  margin-bottom: 30px;
+  font-style: italic;
 }
 
 h3 {
@@ -122,9 +132,9 @@ a:hover {
 
 #main_frame {
   max-width: 900px;
-  width: calc(100% - 40px);
+  width: calc(100% - 20px);
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   text-align: justify;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Consistent font */
   background-color: transparent;
@@ -226,7 +236,7 @@ input[type="text"] {
 /* Desktop - add more padding on larger screens */
 @media (min-width: 768px) {
   #main_frame {
-    padding: 50px;
+    padding: 25px;
   }
 }
 
@@ -234,8 +244,8 @@ input[type="text"] {
 @media (max-width: 767px) {
   #main_frame {
     font-size: 15px; /* Adjusted for mobile readability */
-    padding: 15px;
-    width: calc(100% - 30px); /* Reduce padding on mobile */
+    padding: 7.5px;
+    width: calc(100% - 10px); /* Reduce padding on mobile */
   }
 
   #main_frame img {
